@@ -37,5 +37,7 @@ public class Transactie {
     public int getNaarBank() {
         return naarBank;
     }
+
+
                
 }

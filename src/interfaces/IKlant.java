@@ -20,5 +20,7 @@ public interface IKlant {
      */
     public ArrayList getRekeningen();
     
-    
+    public String getName();
+    public String getWachtwoord();
+    public String getCity();
 }

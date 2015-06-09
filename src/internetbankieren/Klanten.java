@@ -1,17 +1,20 @@
 
 package internetbankieren;
 
+import interfaces.IKlant;
+import interfaces.IKlanten;
 import java.util.ArrayList;
 import java.util.List;
 
 // TODO: Wijzig naar Klant klasse zoals in het klassediagram
 
-public class Klanten {
+public class Klanten implements IKlanten{
     
     
-    private List<Klant> gegevens;
+    private List<IKlant> gegevens;
+    
 
-    public  List<Klant> getGegevens() {
+    public  List<IKlant> getGegevens() {
         return gegevens;
     }
 
@@ -21,16 +24,16 @@ public class Klanten {
     
     
     
-    public void addKlant(Klant k)
+    public void addKlant(IKlant k)
     {
         gegevens.add(k);
     }
     
-    public boolean AddCustomer(Klant klant)
+    public boolean AddCustomer(IKlant klant)
     {
          boolean succes = true;
          
-         for(Klant k: gegevens)
+         for(IKlant k: gegevens)
          {
              if(k.getName().equals(klant.getName()) && k.getCity().equals(klant.getCity()))
              {
@@ -45,5 +48,30 @@ public class Klanten {
          }
          
          return succes;
+    }
+
+    @Override
+    public boolean add() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean remove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Klant getKlant() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Klanten getKlanten() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean maakKlant(String inlognaam, String wachtwoord, String naam, String woonplaats, Bank b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
