@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import internetbankieren.Klanten;
+import internetbankieren.Sessie;
 import java.sql.Connection;
 import javafx.event.*;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ public class MainViewController implements screenController {
     LoginController lc = new LoginController();
     RegistreerController rc = new RegistreerController();
     Klanten klanten = new Klanten();
+    Sessie sessie;
     
     // STEP 1: JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -60,7 +62,10 @@ public class MainViewController implements screenController {
   public void initialize() {
       sessionLabel.setText(lc.generateSessionID());
       System.out.println(klanten.getKlanten().size());
-      this.loadKlantInformation();
+      
+      String tempUser = Sessie.getUserName();
+            
+      this.loadKlantInformation(tempUser);
   }
 
     @Override
@@ -85,7 +90,7 @@ public class MainViewController implements screenController {
      /**
      * Get Klant Information for MainViewController
      */
-    private void loadKlantInformation(){
+    private void loadKlantInformation(String userName){
         Connection conn = null;
         Statement stmt = null;
 
@@ -102,7 +107,7 @@ public class MainViewController implements screenController {
             stmt = conn.createStatement();
             String sql;
             
-            sql = "SELECT name, city, password FROM klantgegevens";
+            sql = "SELECT name, city, password FROM klantgegevens WHERE name ='" + userName + "'";
             ResultSet rs = stmt.executeQuery(sql);
             Statement statement = conn.createStatement();
             rs = stmt.executeQuery(sql);

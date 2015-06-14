@@ -2,6 +2,7 @@ package controller;
 
 import internetbankieren.Klant;
 import internetbankieren.Klanten;
+import internetbankieren.Sessie;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,6 +23,7 @@ public class LoginController implements screenController{
     private String username;
     private String wachtwoord;
     private static int generateSessionID = 0;
+    private Sessie sessie;
     
     // STEP 1: JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -99,7 +101,11 @@ public class LoginController implements screenController{
                 if (rs.next() != false) {
                     sessionID = "succeeded";
                     System.out.println("SESSIE ID: "  + sessionID);
+                    sessie = new Sessie(sessionID, username);
                     return sessionID;
+                    
+                    
+                    
                 } else {
                     errorTextArea.setText("Onjuiste inloginformatie... Probeer opnieuw!");
                 }
@@ -135,6 +141,7 @@ public class LoginController implements screenController{
 
     public String generateSessionID() {
         generateSessionID++;
+        
         return "xyzzy - session " + generateSessionID;
     }
     
