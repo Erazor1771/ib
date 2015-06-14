@@ -37,8 +37,12 @@ public class LoginController implements screenController{
     private TextField password;
 
     @FXML
+    private TextArea errorTextArea;
+    
+    @FXML
     private Button btnRegistreer;
 
+    
     Klanten gegevens;
 
     LoginManager loginManager;
@@ -46,7 +50,7 @@ public class LoginController implements screenController{
     private Button loginButton;
 
     public void initialize() {
-        sessionID = authorize();
+        
     }
 
     public LoginController() {
@@ -92,11 +96,12 @@ public class LoginController implements screenController{
                 sql = "Select * from klantgegevens Where name ='" + username + "' and password='" + wachtwoord + "'";
 
                 ResultSet rs = stmt.executeQuery(sql);
-                if (rs.next()) {
+                if (rs.next() != false) {
                     sessionID = "succeeded";
+                    System.out.println("SESSIE ID: "  + sessionID);
                     return sessionID;
                 } else {
-                    System.out.println("Invalid credentials");
+                    errorTextArea.setText("Onjuiste inloginformatie... Probeer opnieuw!");
                 }
             }
 
@@ -148,7 +153,9 @@ public class LoginController implements screenController{
     @FXML
     private void LoginAction(ActionEvent event) {
 
-        if (sessionID != null) {
+        sessionID = authorize();
+        
+        if (sessionID.contains("succeeded")) {
              
             myController.loadScreen("mainview", "/view/mainview.fxml");
             myController.setScreen(BankView.screen2ID);

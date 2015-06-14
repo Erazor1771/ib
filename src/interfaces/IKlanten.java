@@ -39,6 +39,8 @@ public interface IKlanten {
      */
     public List getKlanten();
     
+    public int getSize();
+    
     /**
      * 
      * @param inlognaam

@@ -17,16 +17,14 @@ public class LoginManager {
   private static LoginManager instance;
   private Klanten klanten;
 
-  public LoginManager(Scene scene) {
-    this.scene = scene;
+  public LoginManager() {
+
     this.klanten = new Klanten();
-    
-    Klant tarkan = new Klant("tarkan", "boz", "123");
-    klanten.addKlant(tarkan);
-    
+   
    
   }
 
+  
     public static LoginManager getInstance() {
         return instance;
     }

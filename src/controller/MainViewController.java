@@ -18,6 +18,7 @@ public class MainViewController implements screenController {
     
     screensController myController;
     LoginController lc = new LoginController();
+    RegistreerController rc = new RegistreerController();
     Klanten klanten = new Klanten();
     
     // STEP 1: JDBC driver name and database URL
@@ -59,7 +60,6 @@ public class MainViewController implements screenController {
   public void initialize() {
       sessionLabel.setText(lc.generateSessionID());
       System.out.println(klanten.getKlanten().size());
-      System.out.println(klanten.getGegevens().toString());
       this.loadKlantInformation();
   }
 
@@ -77,7 +77,7 @@ public class MainViewController implements screenController {
     
     @FXML
     private void maakBankrekeningWindow(ActionEvent event) {
-         //System.out.println(klanten.getKlant(0).toString());
+       
          myController.setScreen(BankView.screen4ID);
 
     }

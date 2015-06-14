@@ -17,7 +17,7 @@
             <PasswordField fx:id="password" layoutX="296.0" layoutY="279.0" maxHeight="50.0" prefHeight="50.0" prefWidth="217.0" promptText="Use &quot;sesame&quot; to login" text="sesame" />
       <Button fx:id="loginButton" alignment="CENTER" defaultButton="true" layoutX="405.0" layoutY="356.0" mnemonicParsing="false" onAction="#LoginAction" prefHeight="25.0" prefWidth="103.0" text="Login" />
             <Button fx:id="btnRegistreer" layoutX="293.0" layoutY="356.0" mnemonicParsing="false" onAction="#RegistreerAction" prefHeight="25.0" prefWidth="96.0" text="Registreer" />
-            <TextArea layoutX="233.0" layoutY="441.0" maxWidth="451.0" prefHeight="44.0" prefWidth="330.0" />
+            <TextArea fx:id="errorTextArea" layoutX="233.0" layoutY="441.0" maxWidth="451.0" prefHeight="44.0" prefWidth="330.0" />
       <Label layoutX="220.0" layoutY="219.0" text="Username:" />
             <Label layoutX="354.0" layoutY="415.0" text="Foutmeldingen:" />
             <Pane layoutY="-3.0" prefHeight="125.0" prefWidth="822.0" style="-fx-background-color: #e5e5e5;">

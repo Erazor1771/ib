@@ -71,6 +71,11 @@ public class Klanten implements IKlanten{
     }
 
     @Override
+    public int getSize(){
+        return gegevens.size();
+    }
+    
+    @Override
     public boolean maakKlant(String inlognaam, String wachtwoord, String naam, String woonplaats, Bank b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
