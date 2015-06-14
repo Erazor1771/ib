@@ -18,7 +18,7 @@ public class Klant implements IKlant{
         this.name = name;
         this.city = city;
         this.wachtwoord = wachtwoord;
-        this.sessie = new Sessie();
+        //this.sessie = new Sessie();
     }
 
     @Override

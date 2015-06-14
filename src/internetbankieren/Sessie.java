@@ -13,6 +13,24 @@ import java.sql.Time;
  * @author lars
  */
 public class Sessie implements ISessie{
+    
+    private String sessieID;
+    private static String userName;
+
+    public Sessie(String sessieID, String userName) {
+        this.sessieID = sessieID;
+        this.userName = userName;
+    }
+
+    public String getSessieID() {
+        return sessieID;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+    
+    
 
     @Override
     public boolean maakOver(double bedrag, int rekeningNummer) {

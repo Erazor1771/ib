@@ -56,7 +56,7 @@ public class LoginController implements screenController{
     }
 
     public LoginController() {
-        this.sessionID = sessionID;
+       // this.sessionID = sessionID;
     }
 
     /**
@@ -66,8 +66,6 @@ public class LoginController implements screenController{
      * return null.
      */
     private String authorize() {
-
-
         
         Connection conn = null;
         Statement stmt = null;
@@ -101,7 +99,9 @@ public class LoginController implements screenController{
                 if (rs.next() != false) {
                     sessionID = "succeeded";
                     System.out.println("SESSIE ID: "  + sessionID);
+                    
                     sessie = new Sessie(sessionID, username);
+                    
                     return sessionID;
                     
                     
@@ -171,10 +171,10 @@ public class LoginController implements screenController{
 
     }
 
-    public String getSessionID() {
-        System.out.println(sessionID);
-        return sessionID;
-    }
+//    public String getSessionID() {
+//        System.out.println(sessionID);
+//        return sessionID;
+//    }
 
 
 }
