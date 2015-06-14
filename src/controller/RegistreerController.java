@@ -25,14 +25,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import controller.LoginManager;
+import view.BankView;
 
 /**
  * FXML Controller class
  *
  * @author 310054544
  */
-public class RegistreerController {
-
+public class RegistreerController implements screenController {
+    
+    screensController myController;
+    
     // STEP 1: JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/internetbank";
@@ -145,4 +148,16 @@ public class RegistreerController {
 
     }
 
+    @Override
+    public void setScreenParent(screensController screenParent) {
+        myController = screenParent;
+    }
+
+    @FXML
+    private void goBackToLogin(ActionEvent event) {
+
+        myController.setScreen(BankView.screen1ID);
+
+    }
+    
 }

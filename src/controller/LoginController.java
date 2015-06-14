@@ -12,12 +12,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import controller.LoginManager;
 import static controller.RegistreerController.JDBC_DRIVER;
+import view.BankView;
 
 /**
  * Controls the login screen
  */
-public class LoginController {
-
+public class LoginController implements screenController{
+    
+    screensController myController;
+    
     // STEP 1: JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/internetbank";
@@ -130,22 +133,29 @@ public class LoginController {
         sessionID++;
         return "xyzzy - session " + sessionID;
     }
-
+    
+    @Override
+    public void setScreenParent(screensController screenParent) {
+        myController = screenParent;
+    }
+    
     @FXML
     private void RegistreerAction(ActionEvent event) {
 
-        this.loginManager.showRegistreer();
+         myController.setScreen(BankView.screen3ID);
 
     }
-
+            
     @FXML
     private void LoginAction(ActionEvent event) {
 
         String sessionID = authorize();
 
         if (sessionID != null) {
-            this.loginManager.authenticated(sessionID);
+            //this.loginManager.authenticated(sessionID);
+            myController.setScreen(BankView.screen2ID);
         }
 
     }
+
 }

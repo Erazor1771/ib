@@ -62,8 +62,8 @@
                   <StackPane prefHeight="150.0" prefWidth="200.0">
                      <children>
                         <TextArea maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="408.0" promptText="Transacties:" />
-                        <Button fx:id="btnNewReknummer" mnemonicParsing="false" text="New account" StackPane.alignment="TOP_RIGHT" />
-                <Button id="loginButton" fx:id="logoutButton" alignment="CENTER" defaultButton="true" mnemonicParsing="false" text="Logout" StackPane.alignment="CENTER_RIGHT" />
+                        <Button fx:id="btnNewReknummer" mnemonicParsing="false" onAction="#maakBankrekeningWindow" text="New account" StackPane.alignment="TOP_RIGHT" />
+                <Button id="loginButton" fx:id="logoutButton" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#returnToLoginScreen" text="Logout" StackPane.alignment="CENTER_RIGHT" />
                      </children>
                   </StackPane>
           </children>

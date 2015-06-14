@@ -3,10 +3,15 @@ package controller;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import controller.LoginManager;
+import javafx.scene.Scene;
+import view.BankView;
 
 /** Controls the main application screen */
-public class MainViewController {
+public class MainViewController implements screenController {
+    
+    screensController myController;
+    Scene scene;
+    BankrekeningController bc;
     @FXML
   private Button logoutButton;
     @FXML
@@ -27,9 +32,7 @@ public class MainViewController {
     private Button btnNewReknummer;
   
   public void initialize() {
-  
-      
-  
+ 
   }
   
   public void initSessionID(final LoginManager loginManager, String sessionID) {
@@ -40,4 +43,25 @@ public class MainViewController {
       }
     });
   }
+
+    @Override
+    public void setScreenParent(screensController screenParent) {
+        myController = screenParent;
+    }
+  
+    @FXML
+    private void returnToLoginScreen(ActionEvent event) {
+
+         myController.setScreen(BankView.screen1ID);   
+         
+    }
+    
+    @FXML
+    private void maakBankrekeningWindow(ActionEvent event) {
+         
+         myController.setScreen(BankView.screen4ID);
+
+    }
+    
+  
 }

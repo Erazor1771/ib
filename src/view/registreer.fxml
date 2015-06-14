@@ -32,7 +32,7 @@
             <StackPane prefHeight="22.0" prefWidth="247.0">
                      <children>
                         <Button fx:id="btnRegistreren" mnemonicParsing="false" onAction="#RegistrerenAction" text="registreer" StackPane.alignment="CENTER_RIGHT" />
-                        <Button fx:id="btnGoBack" mnemonicParsing="false" onAction="#GoBackAction" text="Go Back" />
+                        <Button fx:id="btnGoBack" mnemonicParsing="false" onAction="#goBackToLogin" text="Go Back" />
                      </children>
             </StackPane>
           </children>
