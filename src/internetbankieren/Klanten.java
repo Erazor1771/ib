@@ -11,19 +11,13 @@ import java.util.List;
 public class Klanten implements IKlanten{
     
     
-    private List<IKlant> gegevens;
+    private ArrayList<IKlant> gegevens;
     
-
-    public List<IKlant> getGegevens() {
-        return gegevens;
-    }
-
     public Klanten() {
         gegevens = new ArrayList();
     }
     
-    
-    
+    @Override
     public void addKlant(IKlant k)
     {
         gegevens.add(k);
@@ -44,7 +38,7 @@ public class Klanten implements IKlanten{
          
          if(succes)
          {
-             gegevens.add(klant);
+             this.addKlant(klant);
              System.out.println(this.getKlanten().size());
          }
          return succes;
@@ -75,9 +69,18 @@ public class Klanten implements IKlanten{
         return gegevens.size();
     }
     
+    public List<IKlant> getGegevens() {
+        return gegevens;
+    }
+    
     @Override
     public boolean maakKlant(String inlognaam, String wachtwoord, String naam, String woonplaats, Bank b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String toString() {
+        return "Klanten{" + "gegevens=" + gegevens + '}';
     }
     
     

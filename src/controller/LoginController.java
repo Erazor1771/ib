@@ -93,7 +93,7 @@ public class LoginController implements screenController{
             //rs = stmt.executeQuery(sql);
 
             if (username != null && wachtwoord != null) {
-                sql = "Select * from klantgegevens Where name ='" + username + "' and password='" + wachtwoord + "'";
+                sql = "SELECT * FROM klant WHERE Naam='" + username + "' and Wachtwoord='" + wachtwoord + "'";
 
                 ResultSet rs = stmt.executeQuery(sql);
                 if (rs.next() != false) {
@@ -153,8 +153,9 @@ public class LoginController implements screenController{
     @FXML
     private void RegistreerAction(ActionEvent event) {
 
+         myController.loadScreen(BankView.screen3ID, BankView.screen3File);
          myController.setScreen(BankView.screen3ID);
-
+         
     }
             
     @FXML

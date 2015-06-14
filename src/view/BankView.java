@@ -5,7 +5,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import controller.*;
+import interfaces.IKlant;
+import interfaces.IKlanten;
+import internetbankieren.Klant;
 import internetbankieren.Klanten;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.Group;
 
 /** Main application class for the login demo application */
@@ -19,17 +24,13 @@ public class BankView extends Application {
     public static String screen3File = "/view/registreer.fxml";
     public static String screen4ID = "bankrekening";
     public static String screen4File = "/view/bankrekening.fxml";
-
-  
+    
   
     @Override public void start(Stage primaryStage) throws IOException {
+    
           screensController mainContainer = new screensController();
-          
-          mainContainer.loadScreen(BankView.screen1ID, BankView.screen1File);
-          //mainContainer.loadScreen(BankView.screen2ID, BankView.screen2File);
-          mainContainer.loadScreen(BankView.screen3ID, BankView.screen3File);
-          mainContainer.loadScreen(BankView.screen4ID, BankView.screen4File);
 
+          mainContainer.loadScreen(BankView.screen1ID, BankView.screen1File);
           mainContainer.setScreen(BankView.screen1ID);
 
           Group root = new Group();
@@ -37,9 +38,9 @@ public class BankView extends Application {
           Scene scene = new Scene(root);
           primaryStage.setScene(scene);
           primaryStage.show();  
-
+          
     }
-
+    
     /**
        * The main() method is ignored in correctly deployed JavaFX application.
        * main() serves only as fallback in case the application can not be
@@ -49,7 +50,7 @@ public class BankView extends Application {
        * @param args the command line arguments
        */
     public static void main(String[] args) { 
-
+               
           launch(args); 
 
        }

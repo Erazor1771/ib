@@ -47,6 +47,11 @@ public class Bankrekening implements IBankrekening{
     public boolean overschrijven(int naarRekNummer, double bedrag) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String toString() {
+        return "Bankrekening{" + "nummer=" + nummer + ", k=" + k + ", saldo=" + saldo + ", kredietlimiet=" + kredietlimiet + '}';
+    }
     
     
 }

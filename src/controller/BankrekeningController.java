@@ -5,10 +5,17 @@
  */
 package controller;
 
+import static controller.RegistreerController.JDBC_DRIVER;
+import internetbankieren.Bankrekening;
 import internetbankieren.Klant;
 import internetbankieren.Klanten;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -29,18 +37,111 @@ import view.BankView;
 public class BankrekeningController implements Initializable, screenController {
     
     screensController myController;
+    
+    // STEP 1: JDBC driver name and database URL
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    static final String DB_URL = "jdbc:mysql://localhost/internetbank";
+
+    //  Database credentials
+    static final String USER = "root";
+    static final String PASS = "";
+    
     /**
      * Initializes the controller class.
      */
-    
-   
+    @FXML
+    private TextField bankrekeningNummerField;
+    @FXML
+    private TextField klantField;
+    @FXML
+    private TextField saldoField;
+    @FXML
+    private TextField kredietlimietField;
+    Klanten klanten;
+    MainViewController mv = new MainViewController();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        bankrekeningNummerField.setText("123");
+        klantField.setText("<Klant>");
         
     }    
 
+    @FXML
+    private void maakBankrekening(ActionEvent event) {
+        
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+        
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT * FROM bankrekening";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            int bankrekeningnummer = Integer.parseInt(bankrekeningNummerField.getText());
+            Klant k = null;
+            int saldo = Integer.parseInt(saldoField.getText());
+            int kredietlimiet = Integer.parseInt(kredietlimietField.getText());
+            int klantid = 8;
+            
+            Bankrekening br = new Bankrekening(bankrekeningnummer, k, saldo, kredietlimiet);
+            System.out.println(br.toString());
+            
+            if (1 == 1) {
+                
+                System.out.println("Success");
+
+                Statement statement = conn.createStatement();
+                //String testSql = ("INSERT INTO klantgegevens VALUES ('" + name + "', '" + city + "', '" + password + "')");
+                statement.executeUpdate("INSERT INTO bankrekening (KlantID, Rekeningnummer, Saldo, Kredietlimiet) VALUES ('" + klantid + "','" + bankrekeningnummer + "','" + saldo + "', '" + kredietlimiet + "')");
+
+                rs = stmt.executeQuery(sql);
+                //System.out.println(gegevens.getGegevens().toString());
+                
+                myController.loadScreen("mainview", "/view/mainview.fxml");
+                myController.setScreen(BankView.screen2ID);
+                
+                
+            } else {
+                System.out.println("No Success");
+            }
+
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //System.out.println(gegevens.getKlanten().toString());
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }
+    }
+    
     @Override
     public void setScreenParent(screensController screenParent) {
         myController = screenParent;

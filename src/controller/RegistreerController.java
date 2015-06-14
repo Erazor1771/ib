@@ -25,6 +25,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import controller.LoginManager;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 import view.BankView;
 
 /**
@@ -53,19 +57,32 @@ public class RegistreerController implements screenController {
     @FXML
     private TextField txtFieldCity;
     @FXML
+    private TextField klantIDTextfield;
+    @FXML
+    private ComboBox bankKeuzeCombo;
+    @FXML
     private Button btnGoBack;
 
     private LoginManager instance;
 
-    private Klanten gegevens = new Klanten();
+    private Klanten gegevens;
     private List<Klant> lijst;
 
+    public RegistreerController(){
+        this.gegevens = new Klanten();
+    }
     /**
      * Initializes the controller class.
      */
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize() {
         // TODO
-
+            List<String> list = new ArrayList<String>();
+            list.add("ABN");
+            list.add("ING");
+            list.add("PAYPAL");
+            ObservableList obList = FXCollections.observableList(list);
+            bankKeuzeCombo.getItems().clear();
+            bankKeuzeCombo.setItems(obList);
     }
 
     public void session(final LoginManager loginManager, Klanten gegevens) {
@@ -74,9 +91,9 @@ public class RegistreerController implements screenController {
         this.gegevens = gegevens;
 
     }
-
+    
     @FXML
-    private void RegistrerenAction(ActionEvent event) {
+    public List RegistrerenAction(ActionEvent event) {
 
         Connection conn = null;
         Statement stmt = null;
@@ -94,16 +111,15 @@ public class RegistreerController implements screenController {
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT name, city, password FROM klantgegevens";
+            sql = "SELECT * FROM klant";
             ResultSet rs = stmt.executeQuery(sql);
 
-            String name = txtFieldNaam.getText();
-            String city = txtFieldCity.getText();
-            String password = txtFieldPassword.getText();
+            String BankID = bankKeuzeCombo.getSelectionModel().getSelectedItem().toString();
+            String naam = txtFieldNaam.getText();
+            String woonplaats = txtFieldCity.getText();
+            String wachtwoord = txtFieldPassword.getText();
 
-
-            
-            Klant newKlant = new Klant(name, city, password);
+            Klant newKlant = new Klant(naam, woonplaats, wachtwoord);
             
             if (gegevens.AddCustomer(newKlant)) {
                 
@@ -111,10 +127,16 @@ public class RegistreerController implements screenController {
 
                 Statement statement = conn.createStatement();
                 //String testSql = ("INSERT INTO klantgegevens VALUES ('" + name + "', '" + city + "', '" + password + "')");
-                statement.executeUpdate("INSERT INTO klantgegevens VALUES ('" + name + "', '" + city + "', '" + password + "')");
+                statement.executeUpdate("INSERT INTO klant (BankID, Naam, Woonplaats, Wachtwoord) VALUES ('" + BankID + "','" + naam + "','" + woonplaats + "', '" + wachtwoord + "')");
 
                 rs = stmt.executeQuery(sql);
-
+                System.out.println(gegevens.getGegevens().toString());
+                
+                myController.loadScreen("login", "/view/login.fxml");
+                myController.setScreen(BankView.screen1ID);
+                
+                return gegevens.getGegevens();
+                
             } else {
                 System.out.println("No Success");
             }
@@ -141,8 +163,8 @@ public class RegistreerController implements screenController {
             } catch (SQLException se) {
                 se.printStackTrace();
             }//end finally try
-
         }
+        return null;
     }
 
     @Override
@@ -156,6 +178,5 @@ public class RegistreerController implements screenController {
         myController.setScreen(BankView.screen1ID);
 
     }
-    
     
 }

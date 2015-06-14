@@ -59,6 +59,7 @@ public class MainViewController implements screenController {
     @FXML
     private Button btnNewReknummer;
   
+  
   public void initialize() {
       sessionLabel.setText(lc.generateSessionID());
       System.out.println(klanten.getKlanten().size());
@@ -66,6 +67,7 @@ public class MainViewController implements screenController {
       String tempUser = Sessie.getUserName();
             
       this.loadKlantInformation(tempUser);
+      this.loadBankrekeningInformation(tempUser);
   }
 
     @Override
@@ -82,11 +84,74 @@ public class MainViewController implements screenController {
     
     @FXML
     private void maakBankrekeningWindow(ActionEvent event) {
-       
+        
+         myController.loadScreen(BankView.screen4ID, BankView.screen4File);
          myController.setScreen(BankView.screen4ID);
 
     }
     
+    public void loadBankrekeningInformation(String userName){
+        
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
+            String sql;
+            
+            sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            Statement statement = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            //int klantID = rs.getInt("KlantID");
+            int klantID = 8;
+            
+            sql = "SELECT * FROM bankrekening WHERE KlantID ='" + klantID + "'";
+            rs = stmt.executeQuery(sql);
+            statement = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+                
+            if (rs.next()) {
+                    //Retrieve by column name
+                    String saldo = rs.getString("Saldo");
+                    String kredietlimiet = rs.getString("Kredietlimiet");
+                    
+                    saldoLabel.setText(saldo);
+                    kredietlimietLabel.setText(kredietlimiet);
+
+            } else {
+                    System.out.println("Invalid credentials");
+            }
+
+        } catch (SQLException | ClassNotFoundException se) {
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }//end finally try
+
+        }
+    }
+        
+
      /**
      * Get Klant Information for MainViewController
      */
@@ -107,15 +172,15 @@ public class MainViewController implements screenController {
             stmt = conn.createStatement();
             String sql;
             
-            sql = "SELECT name, city, password FROM klantgegevens WHERE name ='" + userName + "'";
+            sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
             ResultSet rs = stmt.executeQuery(sql);
             Statement statement = conn.createStatement();
             rs = stmt.executeQuery(sql);
                 
             if (rs.next()) {
                     //Retrieve by column name
-                    String naam = rs.getString("name");
-                    String woonplaats = rs.getString("city");
+                    String naam = rs.getString("Naam");
+                    String woonplaats = rs.getString("Woonplaats");
                     
                     naamLabel.setText(naam);
                     woonplaatsLabel.setText(woonplaats);

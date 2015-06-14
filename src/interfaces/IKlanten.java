@@ -4,11 +4,13 @@ package interfaces;
 import internetbankieren.Bank;
 import internetbankieren.Klant;
 import internetbankieren.Klanten;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public interface IKlanten {
     
+    public void addKlant(IKlant k);
     /**
      * 
      * @return 
