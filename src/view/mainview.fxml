@@ -27,9 +27,7 @@
             <Pane layoutX="28.0" layoutY="161.0" prefHeight="272.0" prefWidth="294.0" style="-fx-border-color: #e5e5e5;">
                <children>
                   <Label layoutX="107.0" layoutY="14.0" text="Account Info">
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
+                     
                      <effect>
                         <Blend />
                      </effect>
@@ -41,15 +39,15 @@
           <Label layoutX="48.0" layoutY="52.0" text="Session ID:" />
           <Label fx:id="sessionLabel" layoutX="122.0" layoutY="52.0" text="Undefined" />
                   <Label fx:id="lblNaw" layoutX="69.0" layoutY="83.0" text="Naam:" />
-                  <Label layoutX="121.0" layoutY="83.0" text="Undefined" />
+                  <Label fx:id="naamLabel" layoutX="121.0" layoutY="83.0" text="Undefined" />
                   <Label layoutX="37.0" layoutY="113.0" text="Woonplaats:" />
-                  <Label layoutX="122.0" layoutY="113.0" text="Undefined" />
+                  <Label fx:id="woonplaatsLabel" layoutX="122.0" layoutY="113.0" text="Undefined" />
                   <Label fx:id="lblRekeningNummer" layoutX="8.0" layoutY="152.0" prefHeight="17.0" prefWidth="114.0" text="Rekeningnummer:" />
                   <ChoiceBox layoutX="122.0" layoutY="148.0" prefWidth="150.0" />
                   <Label fx:id="lblSaldo" layoutX="70.0" layoutY="186.0" text="Saldo:" />
                   <Label layoutX="35.0" layoutY="221.0" text="Kredietlimiet:" />
-                  <Label layoutX="122.0" layoutY="186.0" text="Undefined" />
-                  <Label layoutX="122.0" layoutY="221.0" text="Undefined" />
+                  <Label fx:id="saldoLabel" layoutX="122.0" layoutY="186.0" text="Undefined" />
+                  <Label fx:id="kredietlimietLabel" layoutX="122.0" layoutY="221.0" text="Undefined" />
                </children>
             </Pane>
             <Pane layoutX="28.0" layoutY="452.0" prefHeight="95.0" prefWidth="294.0" style="-fx-border-color: #e5e5e5;">
@@ -69,10 +67,8 @@
             <Pane layoutX="374.0" layoutY="161.0" prefHeight="151.0" prefWidth="410.0" style="-fx-border-color: #e5e5e5;">
                <children>
                   <Separator layoutX="80.0" layoutY="40.0" prefHeight="7.0" prefWidth="239.0" />
-                  <Label layoutX="150.0" layoutY="16.0" text="Geld Overmaken">
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
+                  <Label layoutX="151.0" layoutY="16.0" text="Geld Overmaken">
+                     
                      <effect>
                         <Blend />
                      </effect>
@@ -88,9 +84,7 @@
             <Pane layoutX="374.0" layoutY="326.0" prefHeight="105.0" prefWidth="410.0" style="-fx-border-color: #e5e5e5;">
                <children>
                   <Label layoutX="128.0" layoutY="10.0" text="Bankrekening Aanmaken">
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
+                     
                      <effect>
                         <Blend />
                      </effect>
@@ -110,9 +104,7 @@
                <children>
                   <Separator layoutX="86.0" layoutY="30.0" prefHeight="7.0" prefWidth="239.0" />
                   <Label layoutX="154.0" layoutY="8.0" text="Transactie Lijst">
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
+                     
                      <effect>
                         <Blend />
                      </effect>

@@ -46,7 +46,6 @@ public class Klanten implements IKlanten{
          {
              gegevens.add(klant);
          }
-         
          return succes;
     }
 

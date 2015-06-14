@@ -57,7 +57,7 @@ public class RegistreerController implements screenController {
 
     private LoginManager instance;
 
-    private Klanten gegevens;
+    private Klanten gegevens = new Klanten();
     private List<Klant> lijst;
 
     /**
@@ -101,9 +101,12 @@ public class RegistreerController implements screenController {
             String city = txtFieldCity.getText();
             String password = txtFieldPassword.getText();
 
-            Klant newKlant = new Klant(name, city, password);
 
+            
+            Klant newKlant = new Klant(name, city, password);
+            
             if (gegevens.AddCustomer(newKlant)) {
+                
                 System.out.println("Success");
 
                 Statement statement = conn.createStatement();
@@ -123,6 +126,7 @@ public class RegistreerController implements screenController {
             //Handle errors for Class.forName
             e.printStackTrace();
         } finally {
+            //System.out.println(gegevens.getKlanten().toString());
             //finally block used to close resources
             try {
                 if (stmt != null) {
@@ -139,13 +143,6 @@ public class RegistreerController implements screenController {
             }//end finally try
 
         }
-    }
-
-    @FXML
-    private void GoBackAction(ActionEvent event) {
-
-        instance.showLoginScreen();
-
     }
 
     @Override

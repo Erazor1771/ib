@@ -1,5 +1,6 @@
 package controller;
 
+import internetbankieren.Klanten;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,12 +11,21 @@ import view.BankView;
 public class MainViewController implements screenController {
     
     screensController myController;
-    Scene scene;
-    BankrekeningController bc;
+    LoginController lc = new LoginController();
+    
+
     @FXML
-  private Button logoutButton;
+    private Button logoutButton;
     @FXML
-  private Label  sessionLabel;
+    private Label  sessionLabel;
+    @FXML
+    private Label naamLabel;
+    @FXML
+    private Label woonplaatsLabel;
+    @FXML
+    private Label saldoLabel;
+    @FXML
+    private Label kredietlimietLabel;
     @FXML
     private Label lblRekeningNummer;
     @FXML
@@ -32,21 +42,13 @@ public class MainViewController implements screenController {
     private Button btnNewReknummer;
   
   public void initialize() {
- 
-  }
-  
-  public void initSessionID(final LoginManager loginManager, String sessionID) {
-    sessionLabel.setText(sessionID);
-    logoutButton.setOnAction(new EventHandler<ActionEvent>() {
-      @Override public void handle(ActionEvent event) {
-        loginManager.logout();
-      }
-    });
+      sessionLabel.setText(lc.generateSessionID());
+      this.loadKlantInformation();
   }
 
     @Override
     public void setScreenParent(screensController screenParent) {
-        myController = screenParent;
+         myController = screenParent;
     }
   
     @FXML
@@ -63,5 +65,14 @@ public class MainViewController implements screenController {
 
     }
     
-  
+     /**
+     * Get Klant Information for MainViewController
+     */
+    private void loadKlantInformation(){
+        naamLabel.setText("<Naam>");
+        woonplaatsLabel.setText("<Woonplaats>");
+        saldoLabel.setText("<Saldo>");
+        kredietlimietLabel.setText("<Kredietlimiet>");
+    }
+    
 }

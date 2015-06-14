@@ -10,16 +10,16 @@ import java.sql.Statement;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import controller.LoginManager;
-import static controller.RegistreerController.JDBC_DRIVER;
 import view.BankView;
 
 /**
  * Controls the login screen
  */
 public class LoginController implements screenController{
-    
+
     screensController myController;
+    private String sessionID;
+    private static int generateSessionID = 0;
     
     // STEP 1: JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -44,13 +44,11 @@ public class LoginController implements screenController{
     private Button loginButton;
 
     public void initialize() {
-
+        sessionID = authorize();
     }
 
-    public void initManager(final LoginManager loginManager, Klanten gegevens) {
-        this.loginManager = loginManager;
-        this.gegevens = gegevens;
-
+    public LoginController() {
+        this.sessionID = sessionID;
     }
 
     /**
@@ -93,7 +91,8 @@ public class LoginController implements screenController{
 
                 ResultSet rs = stmt.executeQuery(sql);
                 if (rs.next()) {
-                    return generateSessionID();
+                    sessionID = "succeeded";
+                    return sessionID;
                 } else {
                     System.out.println("Invalid credentials");
                 }
@@ -127,11 +126,9 @@ public class LoginController implements screenController{
 
     }
 
-    private static int sessionID = 0;
-
-    private String generateSessionID() {
-        sessionID++;
-        return "xyzzy - session " + sessionID;
+    public String generateSessionID() {
+        generateSessionID++;
+        return "xyzzy - session " + generateSessionID;
     }
     
     @Override
@@ -149,13 +146,19 @@ public class LoginController implements screenController{
     @FXML
     private void LoginAction(ActionEvent event) {
 
-        String sessionID = authorize();
-
         if (sessionID != null) {
-            //this.loginManager.authenticated(sessionID);
+             
+            //myController.loadScreen("mainview", "/view/mainview.fxml");
             myController.setScreen(BankView.screen2ID);
+
         }
 
     }
+
+    public String getSessionID() {
+        System.out.println(sessionID);
+        return sessionID;
+    }
+
 
 }
