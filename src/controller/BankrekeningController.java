@@ -10,6 +10,8 @@ import internetbankieren.Klanten;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -17,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import view.BankView;
 
 /**
  * FXML Controller class
@@ -43,5 +46,8 @@ public class BankrekeningController implements Initializable, screenController {
         myController = screenParent;
     }
     
-   
+    @FXML
+    private void goBackToMainView(ActionEvent event) {
+        myController.setScreen(BankView.screen2ID);
+    }
 }

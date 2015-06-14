@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.geometry.*?>
@@ -7,40 +8,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<StackPane prefHeight="149.0" prefWidth="267.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistreerController">
+<StackPane prefHeight="672.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistreerController">
   <children>
-    <StackPane>
-      <children>
-        <VBox spacing="10.0">
-          <children>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="109.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="189.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-                     <children>
-                        <TextField fx:id="txtFieldNaam" promptText="naam" GridPane.columnIndex="1" />
-                        <TextField fx:id="txtFieldCity" promptText="woonplaats" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <PasswordField fx:id="txtFieldPassword" promptText="password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                     </children>
-            </GridPane>
-            <StackPane prefHeight="22.0" prefWidth="247.0">
-                     <children>
-                        <Button fx:id="btnRegistreren" mnemonicParsing="false" onAction="#RegistrerenAction" text="registreer" StackPane.alignment="CENTER_RIGHT" />
-                        <Button fx:id="btnGoBack" mnemonicParsing="false" onAction="#goBackToLogin" text="Go Back" />
-                     </children>
-            </StackPane>
-          </children>
-        </VBox>
-      </children>
-    </StackPane>
+      <AnchorPane prefHeight="361.0" prefWidth="868.0">
+         <children>
+            <Pane prefHeight="115.0" prefWidth="927.0" style="-fx-background-color: #e5e5e5;">
+               <children>
+                  <Label layoutX="267.0" layoutY="25.0" text="REGISTREREN">
+                     <font>
+                        <Font size="44.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <TextField fx:id="txtFieldCity" layoutX="310.0" layoutY="294.0" prefHeight="58.0" prefWidth="255.0" promptText="woonplaats" />
+            <Button fx:id="btnRegistreren" layoutX="312.0" layoutY="464.0" mnemonicParsing="false" onAction="#RegistrerenAction" text="registreer" />
+            <Button fx:id="btnGoBack" layoutX="218.0" layoutY="463.0" mnemonicParsing="false" onAction="#goBackToLogin" text="Go Back" />
+            <TextField fx:id="txtFieldNaam" layoutX="310.0" layoutY="218.0" prefHeight="61.0" prefWidth="255.0" promptText="naam" />
+            <PasswordField fx:id="txtFieldPassword" layoutX="309.0" layoutY="364.0" prefHeight="60.0" prefWidth="257.0" promptText="wachtwoord" />
+            <Label layoutX="208.0" layoutY="241.0" text="Naam:" />
+            <Label layoutX="184.0" layoutY="315.0" text="Woonplaats:" />
+            <Label layoutX="179.0" layoutY="386.0" text="Wachtwoord:" />
+         </children>
+      </AnchorPane>
   </children>
-  <padding>
-    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-  </padding>
 </StackPane>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.geometry.*?>
@@ -7,71 +11,124 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<StackPane prefHeight="516.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
+<StackPane prefHeight="592.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
   <children>
-    <StackPane>
-      <children>
-        <VBox prefHeight="491.0" prefWidth="644.0" spacing="10.0">
-          <children>
-            <GridPane prefHeight="75.0" prefWidth="630.0">
-              <children>
-                <Label text="Session ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <Label fx:id="sessionLabel" text="Undefined" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-              </children>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0" prefWidth="172.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="142.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="189.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="83.0" minHeight="0.0" prefHeight="62.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="220.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-                  <GridPane>
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="310.0" minWidth="10.0" prefWidth="194.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="487.0" minWidth="10.0" prefWidth="436.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label fx:id="lblRekeningNummer" text="Rekeningnummer" />
-                        <Label fx:id="lblNaw" text="Naam + Woonplaats" GridPane.columnIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="91.0" prefWidth="630.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.0" minWidth="10.0" prefWidth="117.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="199.0" minWidth="10.0" prefWidth="154.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="199.0" minWidth="10.0" prefWidth="29.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="292.0" minWidth="10.0" prefWidth="155.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="199.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label fx:id="lblSaldo" text="Saldo" />
-                        <TextField fx:id="txtFieldBedrag" promptText="bedrag" GridPane.columnIndex="1" />
-                        <TextField fx:id="txtFieldTegenRekening" prefHeight="25.0" prefWidth="153.0" promptText="tegenrekening" GridPane.columnIndex="3" />
-                        <Button fx:id="btnTransfer" mnemonicParsing="false" text="Transfer" GridPane.columnIndex="4" GridPane.halignment="RIGHT" />
-                     </children>
-                  </GridPane>
-                  <StackPane prefHeight="150.0" prefWidth="200.0">
-                     <children>
-                        <TextArea maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="408.0" promptText="Transacties:" />
-                        <Button fx:id="btnNewReknummer" mnemonicParsing="false" onAction="#maakBankrekeningWindow" text="New account" StackPane.alignment="TOP_RIGHT" />
-                <Button id="loginButton" fx:id="logoutButton" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#returnToLoginScreen" text="Logout" StackPane.alignment="CENTER_RIGHT" />
-                     </children>
-                  </StackPane>
-          </children>
-        </VBox>
-      </children>
-    </StackPane>
+      <AnchorPane prefHeight="516.0" prefWidth="705.0">
+         <children>
+            <Pane layoutY="-2.0" prefHeight="120.0" prefWidth="888.0" style="-fx-background-color: #e5e5e5;">
+               <children>
+                  <Label layoutX="205.0" layoutY="28.0" text="MIJN BANKGEGEVENS">
+                     <font>
+                        <Font size="44.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutX="28.0" layoutY="161.0" prefHeight="272.0" prefWidth="294.0" style="-fx-border-color: #e5e5e5;">
+               <children>
+                  <Label layoutX="107.0" layoutY="14.0" text="Account Info">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <effect>
+                        <Blend />
+                     </effect>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="30.0" layoutY="37.0" prefHeight="7.0" prefWidth="239.0" />
+          <Label layoutX="48.0" layoutY="52.0" text="Session ID:" />
+          <Label fx:id="sessionLabel" layoutX="122.0" layoutY="52.0" text="Undefined" />
+                  <Label fx:id="lblNaw" layoutX="69.0" layoutY="83.0" text="Naam:" />
+                  <Label layoutX="121.0" layoutY="83.0" text="Undefined" />
+                  <Label layoutX="37.0" layoutY="113.0" text="Woonplaats:" />
+                  <Label layoutX="122.0" layoutY="113.0" text="Undefined" />
+                  <Label fx:id="lblRekeningNummer" layoutX="8.0" layoutY="152.0" prefHeight="17.0" prefWidth="114.0" text="Rekeningnummer:" />
+                  <ChoiceBox layoutX="122.0" layoutY="148.0" prefWidth="150.0" />
+                  <Label fx:id="lblSaldo" layoutX="70.0" layoutY="186.0" text="Saldo:" />
+                  <Label layoutX="35.0" layoutY="221.0" text="Kredietlimiet:" />
+                  <Label layoutX="122.0" layoutY="186.0" text="Undefined" />
+                  <Label layoutX="122.0" layoutY="221.0" text="Undefined" />
+               </children>
+            </Pane>
+            <Pane layoutX="28.0" layoutY="452.0" prefHeight="95.0" prefWidth="294.0" style="-fx-border-color: #e5e5e5;">
+               <children>
+                  <Label layoutX="109.0" layoutY="8.0" text="Stoppen">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </Label>
+                  <Separator layoutX="14.0" layoutY="33.0" prefHeight="7.0" prefWidth="263.0" />
+          <Button id="loginButton" fx:id="logoutButton" alignment="CENTER" defaultButton="true" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" onAction="#returnToLoginScreen" prefHeight="36.0" prefWidth="263.0" text="Uitloggen" />
+               </children>
+            </Pane>
+            <Pane layoutX="374.0" layoutY="161.0" prefHeight="151.0" prefWidth="410.0" style="-fx-border-color: #e5e5e5;">
+               <children>
+                  <Separator layoutX="80.0" layoutY="40.0" prefHeight="7.0" prefWidth="239.0" />
+                  <Label layoutX="150.0" layoutY="16.0" text="Geld Overmaken">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <effect>
+                        <Blend />
+                     </effect>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtFieldTegenRekening" layoutX="200.0" layoutY="60.0" prefHeight="25.0" prefWidth="153.0" promptText="tegenrekening" />
+                  <TextField fx:id="txtFieldBedrag" layoutX="36.0" layoutY="60.0" promptText="bedrag" />
+                  <Button fx:id="btnTransfer" layoutX="81.0" layoutY="100.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="239.0" text="Transfer" />
+               </children>
+            </Pane>
+            <Pane layoutX="374.0" layoutY="326.0" prefHeight="105.0" prefWidth="410.0" style="-fx-border-color: #e5e5e5;">
+               <children>
+                  <Label layoutX="128.0" layoutY="10.0" text="Bankrekening Aanmaken">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <effect>
+                        <Blend />
+                     </effect>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="81.0" layoutY="34.0" prefHeight="7.0" prefWidth="239.0" />
+                  <Button fx:id="btnNewReknummer" layoutX="81.0" layoutY="46.0" mnemonicParsing="false" onAction="#maakBankrekeningWindow" prefHeight="48.0" prefWidth="239.0" style="-fx-background-color: green;" text="Bankrekening Aanmaken" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane layoutX="374.0" layoutY="447.0" prefHeight="137.0" prefWidth="410.0" style="-fx-border-color: #e5e5e5;">
+               <children>
+                  <Separator layoutX="86.0" layoutY="30.0" prefHeight="7.0" prefWidth="239.0" />
+                  <Label layoutX="154.0" layoutY="8.0" text="Transactie Lijst">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <effect>
+                        <Blend />
+                     </effect>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TableView layoutX="57.0" layoutY="45.0" prefHeight="78.0" prefWidth="284.0">
+                    <columns>
+                      <TableColumn prefWidth="132.0" text="A" />
+                      <TableColumn prefWidth="151.0" text="B" />
+                    </columns>
+                  </TableView>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
   </children>
-  <padding>
-    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-  </padding>
 </StackPane>
