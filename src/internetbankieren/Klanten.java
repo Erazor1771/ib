@@ -14,7 +14,7 @@ public class Klanten implements IKlanten{
     private List<IKlant> gegevens;
     
 
-    public  List<IKlant> getGegevens() {
+    public List<IKlant> getGegevens() {
         return gegevens;
     }
 
@@ -45,6 +45,7 @@ public class Klanten implements IKlanten{
          if(succes)
          {
              gegevens.add(klant);
+             System.out.println(this.getKlanten().size());
          }
          return succes;
     }
@@ -60,17 +61,19 @@ public class Klanten implements IKlanten{
     }
 
     @Override
-    public Klant getKlant() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public IKlant getKlant(int index) {
+        return gegevens.get(index);
     }
 
     @Override
-    public Klanten getKlanten() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List getKlanten() {
+        return gegevens;
     }
 
     @Override
     public boolean maakKlant(String inlognaam, String wachtwoord, String naam, String woonplaats, Bank b) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 }

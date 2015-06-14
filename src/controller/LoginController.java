@@ -19,6 +19,8 @@ public class LoginController implements screenController{
 
     screensController myController;
     private String sessionID;
+    private String username;
+    private String wachtwoord;
     private static int generateSessionID = 0;
     
     // STEP 1: JDBC driver name and database URL
@@ -79,15 +81,15 @@ public class LoginController implements screenController{
             //sql = "SELECT name, city, password FROM klantgegevens";
            // ResultSet rs = stmt.executeQuery(sql);
 
-            String username = user.getText();
-            String ww = password.getText();
+            username = user.getText();
+            wachtwoord = password.getText();
 
            // Statement statement = conn.createStatement();
                // statement.executeUpdate("INSERT INTO klantgegevens VALUES ('" + name + "', '" + city + "', '" + password + "')");
             //rs = stmt.executeQuery(sql);
 
-            if (user != null && ww != null) {
-                sql = "Select * from klantgegevens Where name ='" + username + "' and password='" + ww + "'";
+            if (username != null && wachtwoord != null) {
+                sql = "Select * from klantgegevens Where name ='" + username + "' and password='" + wachtwoord + "'";
 
                 ResultSet rs = stmt.executeQuery(sql);
                 if (rs.next()) {
@@ -148,7 +150,7 @@ public class LoginController implements screenController{
 
         if (sessionID != null) {
              
-            //myController.loadScreen("mainview", "/view/mainview.fxml");
+            myController.loadScreen("mainview", "/view/mainview.fxml");
             myController.setScreen(BankView.screen2ID);
 
         }

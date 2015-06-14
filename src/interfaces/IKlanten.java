@@ -4,6 +4,7 @@ package interfaces;
 import internetbankieren.Bank;
 import internetbankieren.Klant;
 import internetbankieren.Klanten;
+import java.util.List;
 
 
 public interface IKlanten {
@@ -24,7 +25,7 @@ public interface IKlanten {
      * 
      * @return 
      */
-    public Klant getKlant();
+    public IKlant getKlant(int index);
     
     /**
      * 
@@ -36,7 +37,7 @@ public interface IKlanten {
      * 
      * @return 
      */
-    public Klanten getKlanten();
+    public List getKlanten();
     
     /**
      * 

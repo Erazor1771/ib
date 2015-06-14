@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import controller.*;
+import internetbankieren.Klanten;
 import javafx.scene.Group;
 
 /** Main application class for the login demo application */
@@ -23,8 +24,9 @@ public class BankView extends Application {
   
     @Override public void start(Stage primaryStage) throws IOException {
           screensController mainContainer = new screensController();
+          
           mainContainer.loadScreen(BankView.screen1ID, BankView.screen1File);
-          mainContainer.loadScreen(BankView.screen2ID, BankView.screen2File);
+          //mainContainer.loadScreen(BankView.screen2ID, BankView.screen2File);
           mainContainer.loadScreen(BankView.screen3ID, BankView.screen3File);
           mainContainer.loadScreen(BankView.screen4ID, BankView.screen4File);
 

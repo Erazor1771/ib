@@ -45,6 +45,11 @@ public class Klant implements IKlant{
     public ArrayList getRekeningen() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String toString() {
+        return "Klant{" + "name=" + name + ", city=" + city + ", wachtwoord=" + wachtwoord + ", sessie=" + sessie + '}';
+    }
     
     
 }
