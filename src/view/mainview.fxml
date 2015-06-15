@@ -43,11 +43,11 @@
                   <Label layoutX="37.0" layoutY="113.0" text="Woonplaats:" />
                   <Label fx:id="woonplaatsLabel" layoutX="122.0" layoutY="113.0" text="Undefined" />
                   <Label fx:id="lblRekeningNummer" layoutX="8.0" layoutY="152.0" prefHeight="17.0" prefWidth="114.0" text="Rekeningnummer:" />
-                  <ChoiceBox layoutX="122.0" layoutY="148.0" prefWidth="150.0" />
                   <Label fx:id="lblSaldo" layoutX="70.0" layoutY="186.0" text="Saldo:" />
                   <Label layoutX="35.0" layoutY="221.0" text="Kredietlimiet:" />
                   <Label fx:id="saldoLabel" layoutX="122.0" layoutY="186.0" text="Undefined" />
                   <Label fx:id="kredietlimietLabel" layoutX="122.0" layoutY="221.0" text="Undefined" />
+                  <ComboBox fx:id="rekeningenCombo" layoutX="121.0" layoutY="148.0" prefWidth="150.0" />
                </children>
             </Pane>
             <Pane layoutX="28.0" layoutY="452.0" prefHeight="95.0" prefWidth="294.0" style="-fx-border-color: #e5e5e5;">

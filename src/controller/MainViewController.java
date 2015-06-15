@@ -8,6 +8,10 @@ import java.sql.Statement;
 import internetbankieren.Klanten;
 import internetbankieren.Sessie;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -31,7 +35,8 @@ public class MainViewController implements screenController {
     static final String USER = "root";
     static final String PASS = "";
     
-
+    private int rekeningnummer;
+    
     @FXML
     private Button logoutButton;
     @FXML
@@ -58,7 +63,9 @@ public class MainViewController implements screenController {
     private Button btnTransfer;
     @FXML
     private Button btnNewReknummer;
-  
+    @FXML
+    private ComboBox rekeningenCombo;
+
   
   public void initialize() {
       sessionLabel.setText(lc.generateSessionID());
@@ -69,6 +76,15 @@ public class MainViewController implements screenController {
             
       this.loadKlantInformation(tempUser);
       this.loadBankrekeningInformation(tempUser);
+      
+      // Load ComboBox Rekeningen
+      List<Integer> list = new ArrayList<Integer>();
+      // TODO: For Loop voor alle rekeningen bij klant (nu gewoon 1 rekening max tonen)
+      list.add(rekeningnummer);
+      ObservableList obList = FXCollections.observableList(list);
+      rekeningenCombo.getItems().clear();
+      rekeningenCombo.setItems(obList);
+      rekeningenCombo.getSelectionModel().selectFirst();
   }
 
     @Override
@@ -127,7 +143,11 @@ public class MainViewController implements screenController {
                         //Retrieve by column name
                         String saldo = rs.getString("Saldo");
                         String kredietlimiet = rs.getString("Kredietlimiet");
-
+                        int reknummer = rs.getInt("Rekeningnummer");
+                        
+                        rekeningnummer = reknummer;
+                        System.out.println("REKENING NUMMER: " + reknummer);
+                        
                         saldoLabel.setText(saldo);
                         kredietlimietLabel.setText(kredietlimiet);
 
