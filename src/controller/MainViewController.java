@@ -64,6 +64,7 @@ public class MainViewController implements screenController {
       sessionLabel.setText(lc.generateSessionID());
       System.out.println(klanten.getKlanten().size());
       
+      
       String tempUser = Sessie.getUserName();
             
       this.loadKlantInformation(tempUser);

@@ -7,6 +7,8 @@ package internetbankieren;
 
 import interfaces.ISessie;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,12 +18,24 @@ public class Sessie implements ISessie{
     
     private String sessieID;
     private static String userName;
+    private ArrayList sessie;
 
     public Sessie(String sessieID, String userName) {
         this.sessieID = sessieID;
         this.userName = userName;
+        this.sessie = new ArrayList();
     }
 
+    public void addToSessie(Sessie s){
+        sessie.add(s);
+    }
+    public ArrayList getSessieList(){
+        return sessie;
+    }
+    public Object geefSessie(int index){
+        return sessie.get(index);
+    }
+    
     public String getSessieID() {
         return sessieID;
     }
@@ -29,8 +43,6 @@ public class Sessie implements ISessie{
     public static String getUserName() {
         return userName;
     }
-    
-    
 
     @Override
     public boolean maakOver(double bedrag, int rekeningNummer) {
@@ -51,5 +63,11 @@ public class Sessie implements ISessie{
     public Time getTime() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String toString() {
+        return "Sessie{" + "sessieID=" + sessieID + ", sessie=" + sessie + '}';
+    }
+    
     
 }

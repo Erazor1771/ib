@@ -7,8 +7,10 @@ package controller;
 
 import static controller.RegistreerController.JDBC_DRIVER;
 import internetbankieren.Bankrekening;
+import internetbankieren.Bankrekeningen;
 import internetbankieren.Klant;
 import internetbankieren.Klanten;
+import internetbankieren.Sessie;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -46,6 +48,9 @@ public class BankrekeningController implements Initializable, screenController {
     static final String USER = "root";
     static final String PASS = "";
     
+    private static int banknummerid = 100000000;
+    Bankrekeningen bankrekeningen = new Bankrekeningen();
+    
     /**
      * Initializes the controller class.
      */
@@ -57,13 +62,12 @@ public class BankrekeningController implements Initializable, screenController {
     private TextField saldoField;
     @FXML
     private TextField kredietlimietField;
-    Klanten klanten;
     MainViewController mv = new MainViewController();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        bankrekeningNummerField.setText("123");
+        banknummerid++;
+        bankrekeningNummerField.setText(Integer.toString(banknummerid));
         klantField.setText("<Klant>");
         
     }    
@@ -97,9 +101,12 @@ public class BankrekeningController implements Initializable, screenController {
             
             Bankrekening br = new Bankrekening(bankrekeningnummer, k, saldo, kredietlimiet);
             System.out.println(br.toString());
+ 
+            bankrekeningen.addBankrekening(br);
             
-            if (1 == 1) {
+            if (bankrekeningen.getSize() > 0){
                 
+                System.out.println(bankrekeningen.getBankrekeningen().toString());
                 System.out.println("Success");
 
                 Statement statement = conn.createStatement();

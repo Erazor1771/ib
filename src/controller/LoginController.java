@@ -102,6 +102,7 @@ public class LoginController implements screenController{
                     
                     sessie = new Sessie(sessionID, username);
                     
+                    
                     return sessionID;
                     
                     
@@ -164,7 +165,7 @@ public class LoginController implements screenController{
         sessionID = authorize();
         
         if (sessionID.contains("succeeded")) {
-             
+            
             myController.loadScreen("mainview", "/view/mainview.fxml");
             myController.setScreen(BankView.screen2ID);
 
