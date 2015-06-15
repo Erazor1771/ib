@@ -110,29 +110,31 @@ public class MainViewController implements screenController {
             String sql;
             
             sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs;
             Statement statement = conn.createStatement();
             rs = stmt.executeQuery(sql);
-            //int klantID = rs.getInt("KlantID");
-            int klantID = 8;
-            
-            sql = "SELECT * FROM bankrekening WHERE KlantID ='" + klantID + "'";
-            rs = stmt.executeQuery(sql);
-            statement = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-                
             if (rs.next()) {
-                    //Retrieve by column name
-                    String saldo = rs.getString("Saldo");
-                    String kredietlimiet = rs.getString("Kredietlimiet");
-                    
-                    saldoLabel.setText(saldo);
-                    kredietlimietLabel.setText(kredietlimiet);
+                System.out.println("USERNAME: " + userName);
+                int klantID = rs.getInt("KlantID");
+                System.out.println("KLANT ID: " + klantID);
+                
+                sql = "SELECT * FROM bankrekening WHERE KlantID ='" + klantID + "'";
+                rs = stmt.executeQuery(sql);
+                statement = conn.createStatement();
+                rs = stmt.executeQuery(sql);
 
-            } else {
-                    System.out.println("Invalid credentials");
+                if (rs.next()) {
+                        //Retrieve by column name
+                        String saldo = rs.getString("Saldo");
+                        String kredietlimiet = rs.getString("Kredietlimiet");
+
+                        saldoLabel.setText(saldo);
+                        kredietlimietLabel.setText(kredietlimiet);
+
+                } else {
+                        System.out.println("Invalid credentials");
+                }
             }
-
         } catch (SQLException | ClassNotFoundException se) {
         } finally {
             //finally block used to close resources
