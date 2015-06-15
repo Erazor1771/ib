@@ -47,7 +47,7 @@
                   <Label layoutX="35.0" layoutY="221.0" text="Kredietlimiet:" />
                   <Label fx:id="saldoLabel" layoutX="122.0" layoutY="186.0" text="Undefined" />
                   <Label fx:id="kredietlimietLabel" layoutX="122.0" layoutY="221.0" text="Undefined" />
-                  <ComboBox fx:id="rekeningenCombo" layoutX="121.0" layoutY="148.0" prefWidth="150.0" />
+                  <ComboBox fx:id="rekeningenCombo" layoutX="121.0" layoutY="148.0" onAction="#cbRekeningenAction" prefWidth="150.0" />
                </children>
             </Pane>
             <Pane layoutX="28.0" layoutY="452.0" prefHeight="95.0" prefWidth="294.0" style="-fx-border-color: #e5e5e5;">
@@ -78,7 +78,7 @@
                   </Label>
                   <TextField fx:id="txtFieldTegenRekening" layoutX="200.0" layoutY="60.0" prefHeight="25.0" prefWidth="153.0" promptText="tegenrekening" />
                   <TextField fx:id="txtFieldBedrag" layoutX="36.0" layoutY="60.0" promptText="bedrag" />
-                  <Button fx:id="btnTransfer" layoutX="81.0" layoutY="100.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="239.0" text="Transfer" />
+                  <Button fx:id="btnTransfer" layoutX="81.0" layoutY="100.0" mnemonicParsing="false" onAction="#btnTransferAction" prefHeight="36.0" prefWidth="239.0" text="Transfer" />
                </children>
             </Pane>
             <Pane layoutX="374.0" layoutY="326.0" prefHeight="105.0" prefWidth="410.0" style="-fx-border-color: #e5e5e5;">

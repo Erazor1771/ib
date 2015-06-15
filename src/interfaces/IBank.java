@@ -19,7 +19,7 @@ public interface IBank {
      * @param bedrag bedrag in euro's (bijv 2 euro en 13 eurocent : 2,13)
      * @return true of false
      */
-    public boolean transactieUitvoeren(int naarRekNum, double bedrag);
+    public boolean transactieUitvoeren(int vanRekNum,int naarekNum, double bedrag);
     
     /**
      * Methode om een bankcode te genereren voor een bankrekening, dat dient

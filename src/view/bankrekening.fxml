@@ -15,7 +15,7 @@
       <Label layoutX="268.0" layoutY="395.0" text="Kredietlimiet:" />
       <Button layoutX="391.0" layoutY="457.0" mnemonicParsing="false" onAction="#maakBankrekening" text="Maak Bankrekening Aan" />
       <Button layoutX="287.0" layoutY="456.0" mnemonicParsing="false" onAction="#goBackToMainView" text="Ga Terug" />
-      <TextField fx:id="bankrekeningNummerField" editable="false" layoutX="390.0" layoutY="183.0" prefHeight="49.0" prefWidth="169.0" />
+      <TextField fx:id="bankrekeningNummerField" layoutX="390.0" layoutY="183.0" prefHeight="49.0" prefWidth="169.0" />
       <TextField fx:id="kredietlimietField" layoutX="387.0" layoutY="380.0" prefHeight="49.0" prefWidth="173.0" />
       <TextField fx:id="klantField" editable="false" layoutX="389.0" layoutY="248.0" prefHeight="49.0" prefWidth="170.0" />
       <TextField fx:id="saldoField" layoutX="388.0" layoutY="315.0" prefHeight="49.0" prefWidth="173.0" />
