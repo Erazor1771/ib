@@ -50,6 +50,7 @@ public class BankrekeningController implements Initializable, screenController {
     
     private static int banknummerid = 100000000;
     Bankrekeningen bankrekeningen = new Bankrekeningen();
+    private int klantID;
     
     /**
      * Initializes the controller class.
@@ -67,14 +68,15 @@ public class BankrekeningController implements Initializable, screenController {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         banknummerid++;
+        String tempUser = Sessie.getUserName();
         bankrekeningNummerField.setText(Integer.toString(banknummerid));
-        klantField.setText("<Klant>");
-        
+        klantField.setText(tempUser);
     }    
 
     @FXML
     private void maakBankrekening(ActionEvent event) {
         
+        String userName = Sessie.getUserName();
         Connection conn = null;
         Statement stmt = null;
 
@@ -88,16 +90,12 @@ public class BankrekeningController implements Initializable, screenController {
 
             //STEP 4: Execute a query
             System.out.println("Creating statement...");
-            stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT * FROM bankrekening";
-            ResultSet rs = stmt.executeQuery(sql);
-
+            
             int bankrekeningnummer = Integer.parseInt(bankrekeningNummerField.getText());
             Klant k = null;
             int saldo = Integer.parseInt(saldoField.getText());
             int kredietlimiet = Integer.parseInt(kredietlimietField.getText());
-            int klantid = 8;
+            
             
             Bankrekening br = new Bankrekening(bankrekeningnummer, k, saldo, kredietlimiet);
             System.out.println(br.toString());
@@ -109,11 +107,28 @@ public class BankrekeningController implements Initializable, screenController {
                 System.out.println(bankrekeningen.getBankrekeningen().toString());
                 System.out.println("Success");
 
-                Statement statement = conn.createStatement();
-                //String testSql = ("INSERT INTO klantgegevens VALUES ('" + name + "', '" + city + "', '" + password + "')");
-                statement.executeUpdate("INSERT INTO bankrekening (KlantID, Rekeningnummer, Saldo, Kredietlimiet) VALUES ('" + klantid + "','" + bankrekeningnummer + "','" + saldo + "', '" + kredietlimiet + "')");
+                stmt = conn.createStatement();
+                String sql;
 
+
+                sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
+                ResultSet rs;
+                Statement statement = conn.createStatement();
                 rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    System.out.println("USERNAME: " + userName);
+                    int klantID = rs.getInt("KlantID");
+                    System.out.println("KLANT ID: " + klantID);
+                    System.out.println("BANKREKENING NR: " + bankrekeningnummer);
+                    System.out.println("SALDO: " + saldo);
+                    System.out.println("KREDIETLIMIET: " + kredietlimiet);
+                    statement = conn.createStatement();
+                    //String testSql = ("INSERT INTO klantgegevens VALUES ('" + name + "', '" + city + "', '" + password + "')");
+                    statement.executeUpdate("INSERT INTO bankrekening (KlantID, Rekeningnummer, Saldo, Kredietlimiet) VALUES ('" + klantID + "','" + bankrekeningnummer + "','" + saldo + "', '" + kredietlimiet + "')");
+
+                    rs = stmt.executeQuery(sql);
+                }
+               
                 //System.out.println(gegevens.getGegevens().toString());
                 
                 myController.loadScreen("mainview", "/view/mainview.fxml");

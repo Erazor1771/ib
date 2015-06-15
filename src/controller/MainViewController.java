@@ -77,14 +77,10 @@ public class MainViewController implements screenController {
       this.loadKlantInformation(tempUser);
       this.loadBankrekeningInformation(tempUser);
       
-      // Load ComboBox Rekeningen
-      List<Integer> list = new ArrayList<Integer>();
+      
       // TODO: For Loop voor alle rekeningen bij klant (nu gewoon 1 rekening max tonen)
-      list.add(rekeningnummer);
-      ObservableList obList = FXCollections.observableList(list);
-      rekeningenCombo.getItems().clear();
-      rekeningenCombo.setItems(obList);
-      rekeningenCombo.getSelectionModel().selectFirst();
+      this.loadComboBoxItems();
+      
   }
 
     @Override
@@ -236,6 +232,80 @@ public class MainViewController implements screenController {
             }//end finally try
 
         }
+    }
+    
+    public void loadComboBoxItems(){
+        // Load ComboBox Rekeningen
+         List<Integer> list = new ArrayList<Integer>();
+         
+        String userName = Sessie.getUserName();
+        Connection conn = null;
+        Statement stmt = null;
+
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+        
+            //STEP 3: Open a connection
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            //STEP 4: Execute a query
+            System.out.println("Creating statement...");
+         
+                stmt = conn.createStatement();
+                String sql;
+
+
+                sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
+                ResultSet rs;
+                Statement statement = conn.createStatement();
+                rs = stmt.executeQuery(sql);
+                if (rs.next()) {
+                    System.out.println("USERNAME: " + userName);
+                    int klantID = rs.getInt("KlantID");
+                    sql = "SELECT * FROM bankrekening WHERE KlantID ='" + klantID + "'";
+                    statement = conn.createStatement();
+                    rs = stmt.executeQuery(sql);
+                    
+                    while (rs.next()) {
+                        int reknummer = rs.getInt("Rekeningnummer");
+                        System.out.println("REKNUMMERS: " + reknummer);
+                        list.add(reknummer);
+                    }
+
+            } else {
+                System.out.println("No Success");
+            }
+
+        } catch (SQLException se) {
+            //Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            //System.out.println(gegevens.getKlanten().toString());
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }//end finally try
+        }
+        
+         ObservableList obList = FXCollections.observableList(list);
+         rekeningenCombo.getItems().clear();
+         rekeningenCombo.setItems(obList);
+         rekeningenCombo.getSelectionModel().selectFirst();
     }
     
 }
