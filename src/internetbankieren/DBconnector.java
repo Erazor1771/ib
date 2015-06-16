@@ -126,19 +126,19 @@ public class DBconnector {
 
         }
     }
-    
-        public static List<Klant> getAllPersoon() {
-            
-                    Connection conn = null;
+
+    public static List<Klant> getAllPersoon() {
+
+        Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-            
+
         List<Klant> lijst = new ArrayList<Klant>();
         try {
-            
+
             conn = DBconnector.getConnection();
             // haal alle records op
-            
+
             stmt = conn.createStatement();
             String sql;
 
@@ -158,22 +158,37 @@ public class DBconnector {
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }//end finally try
+
         }
         return lijst;
     }
-        
-        public static List<Bankrekening> getAllRekeningen() {
-            
-                    Connection conn = null;
+
+    public static List<Bankrekening> getAllRekeningen() {
+
+        Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
-            
-        List<Klant> lijst = new ArrayList<Klant>();
+
+        List<Bankrekening> lijst = new ArrayList<Bankrekening>();
         try {
-            
+
             conn = DBconnector.getConnection();
             // haal alle records op
-            
+
             stmt = conn.createStatement();
             String sql;
 
@@ -182,19 +197,35 @@ public class DBconnector {
 
             while (rs.next()) {
                 int reknummer = rs.getInt("Rekeningnummer");
-                String stad = rs.getString("Woonplaats");
-                String ww = rs.getString("Wachtwoord");
+                double saldo = rs.getDouble("Saldo");
+                //String ww = rs.getString("Wachtwoord");
                 int klantID = rs.getInt("KlantID");
-                String bankID = rs.getString("KlantID");
+                double kredietLimiet = rs.getDouble("Kredietlimiet");
                 // maak nieuw persoonobject
-                //Bankrekening newRekening = new Bankrekening(naam, stad, ww, , klantID);
+                Bankrekening newRekening = new Bankrekening(reknummer, saldo, klantID, kredietLimiet);
                 // voeg toe aan lijst
-                //lijst.add(newPersoon);
+
+                lijst.add(newRekening);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            //finally block used to close resources
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException se2) {
+            }// nothing we can do
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException se) {
+            }//end finally try
+
         }
-        return null;
+        return lijst;
     }
 
 }

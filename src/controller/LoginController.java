@@ -86,6 +86,7 @@ public class LoginController implements screenController{
 
             username = user.getText();
             wachtwoord = password.getText();
+            
 
            // Statement statement = conn.createStatement();
                // statement.executeUpdate("INSERT INTO klantgegevens VALUES ('" + name + "', '" + city + "', '" + password + "')");
@@ -97,9 +98,11 @@ public class LoginController implements screenController{
                 ResultSet rs = stmt.executeQuery(sql);
                 if (rs.next() != false) {
                     sessionID = "succeeded";
+                    int klantID = rs.getInt("KlantID");
+                    
                     System.out.println("SESSIE ID: "  + sessionID);
                     
-                    sessie = new Sessie(sessionID, username);
+                    sessie = new Sessie(klantID, username);
                     
                     
                     return sessionID;

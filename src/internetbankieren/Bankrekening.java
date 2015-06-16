@@ -18,7 +18,18 @@ public class Bankrekening implements IBankrekening{
         this.kredietlimiet = kredietlimiet;
         //this.klantID = klantID;
     }
-
+    
+    //Bankrekening(reknummer, saldo, klantID, kredietLimiet);
+    
+     public Bankrekening(int nummer, double saldo, int klantID, double kredietlimiet) {
+         
+        this.nummer = nummer;
+        this.klantID = klantID;
+        this.saldo = saldo;
+        this.kredietlimiet = kredietlimiet;
+     
+     }
+    
     public int getNummer() {
         return nummer;
     }

@@ -1,6 +1,8 @@
 package controller;
 
 import internetbankieren.Bank;
+import internetbankieren.Bankrekening;
+import internetbankieren.Bankrekeningen;
 import internetbankieren.DBconnector;
 import internetbankieren.Klant;
 import java.sql.DriverManager;
@@ -72,23 +74,22 @@ public class MainViewController implements screenController {
 
     private Bank bank;
     private DBconnector dbconnector;
-    private List<Klant> lijst;
+    private List<Klant> Klantenlijst;
+    private List<Bankrekening> rekeningenLijst;
 
     public void initialize() {
         sessionLabel.setText(lc.generateSessionID());
         System.out.println(klanten.getKlanten().size());
 
         String tempUser = Sessie.getUserName();
+        int tempKlantID = Sessie.getKlantID();
 
         this.loadKlantInformation(tempUser);
-        this.loadBankrekeningInformation(tempUser);
+        this.loadBankrekeningInformation(tempKlantID);
 
         // TODO: For Loop voor alle rekeningen bij klant (nu gewoon 1 rekening max tonen)
         this.loadComboBoxItems();
         bank = new Bank("ABN");
-
-       
-
 
     }
 
@@ -112,87 +113,30 @@ public class MainViewController implements screenController {
 
     }
 
-    public void loadBankrekeningInformation(String userName) {
+    public void loadBankrekeningInformation(int klantID) {
 
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
 
-      
+        conn = DBconnector.getConnection();
 
-            conn = DBconnector.getConnection();
+        rekeningenLijst = DBconnector.getAllRekeningen();
+
+        for (Bankrekening rek : rekeningenLijst) {
             
-            lijst = DBconnector.getAllPersoon();
-            
-                   for (Klant k : lijst) {
-            if (k.getName().equals(userName)) {
+            if(rek.getKlantID() == klantID)
+            {
                 
-       
+                   rekeningnummer = rek.getNummer();
+                   saldoLabel.setText(String.valueOf(rek.getSaldo()));
+                   kredietlimietLabel.setText(String.valueOf(rek.getKredietlimiet()));
+                
             }
-
+     
         }
-            
-            
-            
-            //STEP 2: Register JDBC driver
-//            Class.forName(JDBC_DRIVER);
-
-            //STEP 3: Open a connection
-//            System.out.println("Connecting to database...");
-//            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            //STEP 4: Execute a query
-//            System.out.println("Creating statement...");
-//            stmt = conn.createStatement();
-//            String sql;
-
-//            sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
-
-//            Statement statement = conn.createStatement();
-//            rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                System.out.println("USERNAME: " + userName);
-//                int klantID = rs.getInt("KlantID");
-//                System.out.println("KLANT ID: " + klantID);
-//
-//                sql = "SELECT * FROM bankrekening WHERE KlantID ='" + klantID + "'";
-//                rs = stmt.executeQuery(sql);
-//                statement = conn.createStatement();
-//                rs = stmt.executeQuery(sql);
-
-//                if (rs.next()) {
-//                    //Retrieve by column name
-//                    String saldo = rs.getString("Saldo");
-//                    String kredietlimiet = rs.getString("Kredietlimiet");
-//                    int reknummer = rs.getInt("Rekeningnummer");
-//
-//                    rekeningnummer = reknummer;
-//                    System.out.println("REKENING NUMMER: " + reknummer);
-//
-//                    saldoLabel.setText(saldo);
-//                    kredietlimietLabel.setText(kredietlimiet);
-//
-//                } else {
-//                    System.out.println("Invalid credentials");
-//                }
-//            }
-//        } catch (SQLException se) {
-//        } finally {
-//            //finally block used to close resources
-//            try {
-//                if (stmt != null) {
-//                    stmt.close();
-//                }
-//            } catch (SQLException se2) {
-//            }// nothing we can do
-//            try {
-//                if (conn != null) {
-//                    conn.close();
-//                }
-//            } catch (SQLException se) {
-//            }//end finally try
-//
-//        }
-    }
+        
+}
 
     /**
      * Get Klant Information for MainViewController
@@ -202,9 +146,9 @@ public class MainViewController implements screenController {
         //DBconnector.loadKlantInformation(userName);
         DBconnector.getConnection();
 
-        lijst = DBconnector.getAllPersoon();
+        Klantenlijst = DBconnector.getAllPersoon();
 
-        for (Klant k : lijst) {
+        for (Klant k : Klantenlijst) {
             if (k.getName().equals(userName)) {
                 naamLabel.setText(k.getName());
                 woonplaatsLabel.setText(k.getCity());
@@ -213,63 +157,7 @@ public class MainViewController implements screenController {
 
         }
 
-//          Connection conn = null;
-//        Statement stmt = null;
-//        ResultSet rs = null;
-//
-//        try {
-//
-//            conn = DBconnector.getConnection();
-//            //STEP 2: Register JDBC driver
-////            Class.forName(JDBC_DRIVER);
-//
-//            //STEP 3: Open a connection
-////            System.out.println("Connecting to database...");
-////            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-//
-//            //STEP 4: Execute a query
-//            System.out.println("Creating statement...");
-//            stmt = conn.createStatement();
-//            String sql;
-//
-//            sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
-//            rs = stmt.executeQuery(sql);
-//            Statement statement = conn.createStatement();
-//            rs = stmt.executeQuery(sql);
-//
-//            if (rs.next()) {
-//                //Retrieve by column name
-//                String naam = rs.getString("Naam");
-//                String woonplaats = rs.getString("Woonplaats");
-//
-//                naamLabel.setText(naam);
-//                woonplaatsLabel.setText(woonplaats);
-//
-//            } else {
-//                System.out.println("Invalid credentials");
-//            }
-//
-////            for (Klant k : gegevens.getGegevens()) {
-////                if (username.equals(k.getName()) && ww.equals(k.getWachtwoord())) {
-////                    return generateSessionID();
-////                }
-////            }
-//        } catch (SQLException se) {
-//        } finally {
-//            //finally block used to close resources
-//            try {
-//                if (stmt != null) {
-//                    stmt.close();
-//                }
-//            } catch (SQLException se2) {
-//            }// nothing we can do
-//            try {
-//                if (conn != null) {
-//                    conn.close();
-//                }
-//            } catch (SQLException se) {
-//            }//end finally try
-//        }
+
     }
 
     public void loadComboBoxItems() {
@@ -348,14 +236,14 @@ public class MainViewController implements screenController {
     }
 
     @FXML
-    private void cbRekeningenAction(ActionEvent event) {
+        private void cbRekeningenAction(ActionEvent event) {
 
         getCBValue();
 
     }
 
     @FXML
-    private void btnTransferAction(ActionEvent event) {
+        private void btnTransferAction(ActionEvent event) {
 
         double bedrag = Double.parseDouble(txtFieldBedrag.getText());
 

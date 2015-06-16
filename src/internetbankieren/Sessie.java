@@ -18,10 +18,11 @@ public class Sessie implements ISessie{
     
     private String sessieID;
     private static String userName;
+    private static int klantID;
     private ArrayList sessie;
 
-    public Sessie(String sessieID, String userName) {
-        this.sessieID = sessieID;
+    public Sessie(int klantID, String userName) {
+        //this.sessieID = sessieID;
         this.userName = userName;
         this.sessie = new ArrayList();
     }
@@ -43,6 +44,12 @@ public class Sessie implements ISessie{
     public static String getUserName() {
         return userName;
     }
+
+    public static int getKlantID() {
+        return klantID;
+    }
+    
+
 
     @Override
     public boolean maakOver(double bedrag, int rekeningNummer) {
