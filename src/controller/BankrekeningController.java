@@ -97,7 +97,7 @@ public class BankrekeningController implements Initializable, screenController {
             int kredietlimiet = Integer.parseInt(kredietlimietField.getText());
             
             
-            Bankrekening br = new Bankrekening(bankrekeningnummer, saldo,k, kredietlimiet);
+            Bankrekening br = new Bankrekening(bankrekeningnummer, k, saldo, kredietlimiet);
             System.out.println(br.toString());
  
             bankrekeningen.addBankrekening(br);

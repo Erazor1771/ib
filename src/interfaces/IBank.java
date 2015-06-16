@@ -3,6 +3,7 @@ package interfaces;
 
 import internetbankieren.Bank;
 import internetbankieren.Bankrekening;
+import java.util.ArrayList;
 
 public interface IBank {
     
@@ -56,4 +57,6 @@ public interface IBank {
      * @return Bankrekening br
      */
     public Bankrekening getBankrekeningnummer(int position);
+    
+    public ArrayList getBankrekeningen();
 }

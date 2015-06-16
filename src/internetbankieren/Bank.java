@@ -13,7 +13,8 @@ import java.util.List;
 public class Bank implements IBank {
 
     private String bankcode;
-    private List<IBankrekening> bankRekeningen;
+    //private List<IBankrekening> bankRekeningen;
+    private Bankrekeningen bankrekeningen;
     private Overboekcentrale centraleBank;
 
     // STEP 1: JDBC driver name and database URL
@@ -27,7 +28,7 @@ public class Bank implements IBank {
     public Bank(String bankcode) {
         this.bankcode = bankcode;
         centraleBank = new Overboekcentrale(bankcode);
-        this.bankRekeningen = new ArrayList<>();
+        this.bankrekeningen = bankrekeningen;
     }
 
     public String getBankcode() {
@@ -140,6 +141,11 @@ public class Bank implements IBank {
     @Override
     public Bankrekening getBankrekeningnummer(int position) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList getBankrekeningen() {
+        return bankrekeningen.getBankrekeningen();
     }
 
 }

@@ -11,7 +11,7 @@ public class Bankrekening implements IBankrekening{
     private double kredietlimiet;
     private int klantID;
 
-    public Bankrekening(int nummer, double saldo, Klant k, double kredietlimiet) {
+    public Bankrekening(int nummer, Klant k, double saldo, double kredietlimiet) {
         this.nummer = nummer;
         this.k = k;
         this.saldo = saldo;

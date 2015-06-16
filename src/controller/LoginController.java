@@ -43,7 +43,6 @@ public class LoginController implements screenController{
     
     @FXML
     private Button btnRegistreer;
-
     
     Klanten gegevens;
 

@@ -62,6 +62,11 @@ public class Klant implements IKlant{
     public String toString() {
         return "Klant{" + "name=" + name + ", city=" + city + ", wachtwoord=" + wachtwoord + ", sessie=" + sessie + '}';
     }
+
+    @Override
+    public Bankrekening getRekening(int position) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

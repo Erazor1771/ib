@@ -15,14 +15,8 @@ public interface IKlanten {
      * 
      * @return 
      */
-    public boolean add();
-    
-    /**
-     * 
-     * @return 
-     */
-    public boolean remove();
-    
+    public boolean AddCustomer(IKlant klant);
+     
     /**
      * 
      * @return 
@@ -45,13 +39,12 @@ public interface IKlanten {
     
     /**
      * 
-     * @param inlognaam
      * @param wachtwoord
      * @param naam
      * @param woonplaats
      * @param b
      * @return 
      */
-    public boolean maakKlant(String inlognaam, String wachtwoord, String naam, String woonplaats, Bank b);
+    public boolean maakKlant(String naam, String wachtwoord, String woonplaats, int KlantID, String bankID);
 }
 
