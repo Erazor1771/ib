@@ -9,12 +9,14 @@ public class Bankrekening implements IBankrekening{
     private Klant k;
     private double saldo;
     private double kredietlimiet;
+    private int klantID;
 
-    public Bankrekening(int nummer, Klant k, double saldo, double kredietlimiet) {
+    public Bankrekening(int nummer, double saldo, Klant k, double kredietlimiet) {
         this.nummer = nummer;
         this.k = k;
         this.saldo = saldo;
         this.kredietlimiet = kredietlimiet;
+        //this.klantID = klantID;
     }
 
     public int getNummer() {
@@ -32,6 +34,12 @@ public class Bankrekening implements IBankrekening{
     public double getKredietlimiet() {
         return kredietlimiet;
     }
+
+    public int getKlantID() {
+        return klantID;
+    }
+    
+    
 
     @Override
     public boolean afboeken(double bedrag) {

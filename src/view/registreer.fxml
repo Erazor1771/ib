@@ -31,6 +31,8 @@
             <Label layoutX="208.0" layoutY="411.0" text="Wachtwoord:" />
             <Label layoutX="240.0" layoutY="195.0" text="Bank:" />
             <ComboBox fx:id="bankKeuzeCombo" editable="true" layoutX="341.0" layoutY="191.0" prefWidth="150.0" />
+            <Label layoutX="241.0" layoutY="142.0" text="klant ID" />
+            <TextField fx:id="txtKlantID" layoutX="342.0" layoutY="138.0" />
          </children>
       </AnchorPane>
   </children>

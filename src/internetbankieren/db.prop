@@ -1,0 +1,3 @@
+url=jdbc:mysql://localhost/internetbank
+user=root
+password=

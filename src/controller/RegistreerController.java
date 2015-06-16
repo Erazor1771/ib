@@ -57,8 +57,6 @@ public class RegistreerController implements screenController {
     @FXML
     private TextField txtFieldCity;
     @FXML
-    private TextField klantIDTextfield;
-    @FXML
     private ComboBox bankKeuzeCombo;
     @FXML
     private Button btnGoBack;
@@ -67,6 +65,8 @@ public class RegistreerController implements screenController {
 
     private Klanten gegevens;
     private List<Klant> lijst;
+    @FXML
+    private TextField txtKlantID;
 
     public RegistreerController(){
         this.gegevens = new Klanten();
@@ -118,8 +118,11 @@ public class RegistreerController implements screenController {
             String naam = txtFieldNaam.getText();
             String woonplaats = txtFieldCity.getText();
             String wachtwoord = txtFieldPassword.getText();
+            int klantID = Integer.parseInt(txtKlantID.getText());
+            
+            
 
-            Klant newKlant = new Klant(naam, woonplaats, wachtwoord);
+            Klant newKlant = new Klant(naam, woonplaats, wachtwoord, klantID, BankID);
             
             if (gegevens.AddCustomer(newKlant)) {
                 

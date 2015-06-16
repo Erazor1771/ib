@@ -13,11 +13,15 @@ public class Klant implements IKlant{
     private String city;
     private String wachtwoord;
     private ISessie sessie;
+    private int klantID;
+    private String bankID;
 
-    public Klant(String name, String city, String wachtwoord) {
+    public Klant(String name, String city, String wachtwoord, int klantID, String bankID) {
         this.name = name;
         this.city = city;
         this.wachtwoord = wachtwoord;
+        this.klantID = klantID;
+        this.bankID = bankID;
         //this.sessie = new Sessie();
     }
 
@@ -34,6 +38,14 @@ public class Klant implements IKlant{
     @Override
     public String getCity() {
         return city;
+    }
+
+    public int getKlantID() {
+        return klantID;
+    }
+
+    public String getBankID() {
+        return bankID;
     }
 
     @Override
