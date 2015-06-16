@@ -115,28 +115,22 @@ public class MainViewController implements screenController {
 
     public void loadBankrekeningInformation(int klantID) {
 
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        conn = DBconnector.getConnection();
-
+//  
         rekeningenLijst = DBconnector.getAllRekeningen();
 
         for (Bankrekening rek : rekeningenLijst) {
-            
-            if(rek.getKlantID() == klantID)
-            {
-                
-                   rekeningnummer = rek.getNummer();
-                   saldoLabel.setText(String.valueOf(rek.getSaldo()));
-                   kredietlimietLabel.setText(String.valueOf(rek.getKredietlimiet()));
-                
+
+            if (rek.getKlantID() == klantID) {
+
+                rekeningnummer = rek.getNummer();
+                saldoLabel.setText(String.valueOf(rek.getSaldo()));
+                kredietlimietLabel.setText(String.valueOf(rek.getKredietlimiet()));
+
             }
-     
+
         }
-        
-}
+
+    }
 
     /**
      * Get Klant Information for MainViewController
@@ -144,8 +138,7 @@ public class MainViewController implements screenController {
     private void loadKlantInformation(String userName) {
 
         //DBconnector.loadKlantInformation(userName);
-        DBconnector.getConnection();
-
+        //DBconnector.getConnection();
         Klantenlijst = DBconnector.getAllPersoon();
 
         for (Klant k : Klantenlijst) {
@@ -157,77 +150,15 @@ public class MainViewController implements screenController {
 
         }
 
-
     }
 
     public void loadComboBoxItems() {
         // Load ComboBox Rekeningen
         List<Integer> list = new ArrayList<Integer>();
 
-        String userName = Sessie.getUserName();
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+        String user = Sessie.getUserName();
 
-        try {
-            //STEP 2: Register JDBC driver
-            //Class.forName(JDBC_DRIVER);
-
-            //STEP 3: Open a connection
-            //System.out.println("Connecting to database...");
-            //conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            conn = DBconnector.getConnection();
-
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
-
-            stmt = conn.createStatement();
-            String sql;
-
-            sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
-
-            Statement statement = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                System.out.println("USERNAME: " + userName);
-                int klantID = rs.getInt("KlantID");
-                sql = "SELECT * FROM bankrekening WHERE KlantID ='" + klantID + "'";
-                statement = conn.createStatement();
-                rs = stmt.executeQuery(sql);
-
-                while (rs.next()) {
-                    int reknummer = rs.getInt("Rekeningnummer");
-                    System.out.println("REKNUMMERS: " + reknummer);
-                    list.add(reknummer);
-                }
-
-            } else {
-                System.out.println("No Success");
-            }
-
-        } catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        } catch (Exception e) {
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        } finally {
-            //System.out.println(gegevens.getKlanten().toString());
-            //finally block used to close resources
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se2) {
-            }// nothing we can do
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }//end finally try
-        }
+        list = DBconnector.loadCBItems(user);
 
         ObservableList obList = FXCollections.observableList(list);
         rekeningenCombo.getItems().clear();
@@ -236,14 +167,14 @@ public class MainViewController implements screenController {
     }
 
     @FXML
-        private void cbRekeningenAction(ActionEvent event) {
+    private void cbRekeningenAction(ActionEvent event) {
 
         getCBValue();
 
     }
 
     @FXML
-        private void btnTransferAction(ActionEvent event) {
+    private void btnTransferAction(ActionEvent event) {
 
         double bedrag = Double.parseDouble(txtFieldBedrag.getText());
 
@@ -265,63 +196,18 @@ public class MainViewController implements screenController {
 
     private void updateSaldo(String selected) {
 
-        Connection conn = null;
-        Statement stmt = null;
+        rekeningenLijst = DBconnector.getAllRekeningen();
 
-        try {
-            //STEP 2: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
+        for (Bankrekening rek : rekeningenLijst) {
 
-            //STEP 3: Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            if (String.valueOf(rek.getNummer()).equals(selected)) {
 
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
+                saldoLabel.setText(String.valueOf(rek.getSaldo()));
+                kredietlimietLabel.setText(String.valueOf(rek.getKredietlimiet()));
 
-            stmt = conn.createStatement();
-            String sql;
-
-            sql = "SELECT * FROM bankrekening WHERE Rekeningnummer ='" + selected + "'";
-            ResultSet rs;
-            Statement statement = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-
-                String saldo = rs.getString("Saldo");
-                String kredietlimiet = rs.getString("Kredietlimiet");
-
-                saldoLabel.setText(saldo);
-                kredietlimietLabel.setText(kredietlimiet);
-
-            } else {
-                System.out.println("No Success");
             }
 
-        } catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        } catch (Exception e) {
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        } finally {
-            //System.out.println(gegevens.getKlanten().toString());
-            //finally block used to close resources
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se2) {
-            }// nothing we can do
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }//end finally try
         }
 
     }
-
 }
