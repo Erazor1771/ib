@@ -93,11 +93,12 @@ public class MainViewController implements screenController {
         this.loadBankrekeningInformation(tempKlantID);
 
         // TODO: For Loop voor alle rekeningen bij klant (nu gewoon 1 rekening max tonen)
-        this.loadComboBoxItems();
+        
         bank = new Bank("ABN");
         bankclientcontroller = new Bankclientcontroller(this);
-        
         bankclientcontroller.selectRekeningen(tempKlantID);
+        
+        this.loadComboBoxItems();
     }
 
     @Override
@@ -206,10 +207,10 @@ public class MainViewController implements screenController {
 
     private void updateSaldo(String selected) {
 
-       rekeningenLijst = DBconnector.getAllRekeningen();
+      // rekeningenLijst = DBconnector.getAllRekeningen();
         //DBconnector.getAllRekeningen();
         
-
+        
         for (Bankrekening rek : rekeningenLijst) {
 
             if (String.valueOf(rek.getNummer()).equals(selected)) {
@@ -223,8 +224,9 @@ public class MainViewController implements screenController {
 
     }
     
-    public void setRekeningen(Bankrekening rekeningen)
+    public void setRekeningen(List<Bankrekening> rekeningen)
     {
-        rekeningenLijst.add(rekeningen);
+        //rekeningenLijst.clear();
+        rekeningenLijst = rekeningen;
     }
 }

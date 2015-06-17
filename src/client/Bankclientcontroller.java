@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +51,7 @@ public class Bankclientcontroller {
     
         public void selectRekeningen(int klantID) {
         List<Bankrekening> rekNummers = rekeningen.getAllRekeningen();
+        List<Bankrekening> rekKlant = new ArrayList<>();
         Bankrekening rek = null;
             
         
@@ -57,11 +59,13 @@ public class Bankclientcontroller {
             
             if(r.getKlantID() == klantID)
             {
-               //mainview.setRekeningen(r);
+               rekKlant.add(r);
+               
                 rek = r;
             }
+            
         }
-      
+        mainview.setRekeningen(rekKlant);
 
          try {
            
