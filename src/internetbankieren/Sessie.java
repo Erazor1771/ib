@@ -24,6 +24,7 @@ public class Sessie implements ISessie{
     public Sessie(int klantID, String userName) {
         //this.sessieID = sessieID;
         this.userName = userName;
+        this.klantID = klantID;
         this.sessie = new ArrayList();
     }
 

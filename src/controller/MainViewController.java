@@ -3,6 +3,7 @@ package controller;
 import internetbankieren.Bank;
 import internetbankieren.Bankrekening;
 import internetbankieren.Bankrekeningen;
+import client.Bankclientcontroller;
 import internetbankieren.DBconnector;
 import internetbankieren.Klant;
 import java.sql.DriverManager;
@@ -11,6 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import internetbankieren.Klanten;
 import internetbankieren.Sessie;
+import internetbankieren.Transactie;
+import java.io.IOException;
+import java.net.Socket;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +80,9 @@ public class MainViewController implements screenController {
     private DBconnector dbconnector;
     private List<Klant> Klantenlijst;
     private List<Bankrekening> rekeningenLijst;
+    private Bankclientcontroller bankclientcontroller;
 
-    public void initialize() {
+    public void initialize() throws IOException {
         sessionLabel.setText(lc.generateSessionID());
         System.out.println(klanten.getKlanten().size());
 
@@ -90,7 +95,8 @@ public class MainViewController implements screenController {
         // TODO: For Loop voor alle rekeningen bij klant (nu gewoon 1 rekening max tonen)
         this.loadComboBoxItems();
         bank = new Bank("ABN");
-
+        bankclientcontroller = new Bankclientcontroller(this);
+        
     }
 
     @Override
@@ -115,20 +121,23 @@ public class MainViewController implements screenController {
 
     public void loadBankrekeningInformation(int klantID) {
 
-//  
-        rekeningenLijst = DBconnector.getAllRekeningen();
-
-        for (Bankrekening rek : rekeningenLijst) {
-
-            if (rek.getKlantID() == klantID) {
-
-                rekeningnummer = rek.getNummer();
-                saldoLabel.setText(String.valueOf(rek.getSaldo()));
-                kredietlimietLabel.setText(String.valueOf(rek.getKredietlimiet()));
-
-            }
-
-        }
+//////  
+//       rekeningenLijst = DBconnector.getAllRekeningen();
+////        
+//////        DBconnector.getAllRekeningen();
+//////        bankclientcontroller.selectRekeningen(klantID);
+////
+//        for (Bankrekening rek : rekeningenLijst) {
+//
+//            if (rek.getKlantID() == klantID) {
+//
+//                rekeningnummer = rek.getNummer();
+//                saldoLabel.setText(String.valueOf(rek.getSaldo()));
+//                kredietlimietLabel.setText(String.valueOf(rek.getKredietlimiet()));
+//
+//            }
+//
+//        }
 
     }
 
@@ -137,8 +146,8 @@ public class MainViewController implements screenController {
      */
     private void loadKlantInformation(String userName) {
 
-        //DBconnector.loadKlantInformation(userName);
-        //DBconnector.getConnection();
+        DBconnector.loadKlantInformation(userName);
+        DBconnector.getConnection();
         Klantenlijst = DBconnector.getAllPersoon();
 
         for (Klant k : Klantenlijst) {
@@ -180,11 +189,11 @@ public class MainViewController implements screenController {
 
         int naarRekening = Integer.parseInt(txtFieldTegenRekening.getText());
         int vanRekening = Integer.parseInt(rekeningenCombo.getSelectionModel().getSelectedItem().toString());
-
+        
         bank.transactieUitvoeren(vanRekening, naarRekening, bedrag);
 
         getCBValue();
-
+        
     }
 
     private void getCBValue() {
@@ -196,7 +205,9 @@ public class MainViewController implements screenController {
 
     private void updateSaldo(String selected) {
 
-        rekeningenLijst = DBconnector.getAllRekeningen();
+       rekeningenLijst = DBconnector.getAllRekeningen();
+        //DBconnector.getAllRekeningen();
+        
 
         for (Bankrekening rek : rekeningenLijst) {
 
@@ -209,5 +220,10 @@ public class MainViewController implements screenController {
 
         }
 
+    }
+    
+    public void setRekeningen(Bankrekening rekeningen)
+    {
+        rekeningenLijst = (List<Bankrekening>) rekeningen;
     }
 }

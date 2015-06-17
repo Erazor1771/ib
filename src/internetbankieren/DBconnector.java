@@ -34,12 +34,15 @@ public class DBconnector {
     static final String PASS = "";
 
     private static Connection conn;
+    private static Bankrekeningen rekeningen = new Bankrekeningen();
 
     public Connection getConn() {
         return conn;
     }
 
     public DBconnector() {
+        
+        rekeningen = new Bankrekeningen();
 
         try {
             // laad driver
@@ -178,6 +181,7 @@ public class DBconnector {
     }
 
     public static List<Bankrekening> getAllRekeningen() {
+        //public static void getAllRekeningen() {
 
         Connection conn = null;
         Statement stmt = null;
@@ -206,6 +210,7 @@ public class DBconnector {
                 // voeg toe aan lijst
 
                 lijst.add(newRekening);
+                rekeningen.addBankrekening(newRekening);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);
@@ -225,7 +230,7 @@ public class DBconnector {
             }//end finally try
 
         }
-        return lijst;
+       return lijst;
     }
     
     public static List loadCBItems(String userName)
@@ -292,6 +297,13 @@ public class DBconnector {
         return list;
     }
     
-    
+    private static void transactie(double bedrag, int vanRekening, int naarRekening)
+    {
+        
+  
+
+            
+        
+    }
 
 }

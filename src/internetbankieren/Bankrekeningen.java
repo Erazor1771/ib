@@ -1,6 +1,8 @@
 
 package internetbankieren;
  
+import internetbankieren.Bankrekening;
+import internetbankieren.Klant;
 import java.util.ArrayList;
 
 
