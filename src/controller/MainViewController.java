@@ -81,13 +81,14 @@ public class MainViewController implements screenController {
     private List<Klant> Klantenlijst;
     private List<Bankrekening> rekeningenLijst;
     private Bankclientcontroller bankclientcontroller;
+    int tempKlantID;
 
     public void initialize() throws IOException {
         sessionLabel.setText(lc.generateSessionID());
         System.out.println(klanten.getKlanten().size());
 
         String tempUser = Sessie.getUserName();
-        int tempKlantID = Sessie.getKlantID();
+        tempKlantID = Sessie.getKlantID();
 
         this.loadKlantInformation(tempUser);
         this.loadBankrekeningInformation(tempKlantID);
@@ -210,6 +211,7 @@ public class MainViewController implements screenController {
       // rekeningenLijst = DBconnector.getAllRekeningen();
         //DBconnector.getAllRekeningen();
         
+        bankclientcontroller.selectRekeningen(tempKlantID);
         
         for (Bankrekening rek : rekeningenLijst) {
 
@@ -226,7 +228,7 @@ public class MainViewController implements screenController {
     
     public void setRekeningen(List<Bankrekening> rekeningen)
     {
-        //rekeningenLijst.clear();
+       
         rekeningenLijst = rekeningen;
     }
 }
