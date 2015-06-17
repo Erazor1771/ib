@@ -49,21 +49,20 @@ public class Bankclientcontroller {
     
     
         public void selectRekeningen(int klantID) {
-        List<Bankrekening> rekNummers = rekeningen.getBankrekeningen();
+        List<Bankrekening> rekNummers = rekeningen.getAllRekeningen();
         Bankrekening rek = null;
             
         
         for (Bankrekening r : rekNummers) {
             
-            if(rek.getKlantID() == klantID)
+            if(r.getKlantID() == klantID)
             {
                //mainview.setRekeningen(r);
                 rek = r;
             }
         }
       
-        
-        
+
          try {
            
             String test = rek.toString();

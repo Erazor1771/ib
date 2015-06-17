@@ -97,6 +97,7 @@ public class MainViewController implements screenController {
         bank = new Bank("ABN");
         bankclientcontroller = new Bankclientcontroller(this);
         
+        bankclientcontroller.selectRekeningen(tempKlantID);
     }
 
     @Override
@@ -122,7 +123,7 @@ public class MainViewController implements screenController {
     public void loadBankrekeningInformation(int klantID) {
 
 //////  
-//       rekeningenLijst = DBconnector.getAllRekeningen();
+     // rekeningenLijst = DBconnector.getAllRekeningen();
 ////        
 //////        DBconnector.getAllRekeningen();
 //////        bankclientcontroller.selectRekeningen(klantID);
@@ -224,6 +225,6 @@ public class MainViewController implements screenController {
     
     public void setRekeningen(Bankrekening rekeningen)
     {
-        rekeningenLijst = (List<Bankrekening>) rekeningen;
+        rekeningenLijst.add(rekeningen);
     }
 }
