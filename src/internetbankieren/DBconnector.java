@@ -233,69 +233,71 @@ public class DBconnector {
        return lijst;
     }
     
-    public static List loadCBItems(String userName)
-    {
-        List<Integer> list = new ArrayList<Integer>();
-          Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        try {
-
-            conn = DBconnector.getConnection();
-
-            //STEP 4: Execute a query
-            System.out.println("Creating statement...");
-
-            stmt = conn.createStatement();
-            String sql;
-
-            sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
-
-            Statement statement = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                System.out.println("USERNAME: " + userName);
-                int klantID = rs.getInt("KlantID");
-                sql = "SELECT * FROM bankrekening WHERE KlantID ='" + klantID + "'";
-                statement = conn.createStatement();
-                rs = stmt.executeQuery(sql);
-
-                while (rs.next()) {
-                    int reknummer = rs.getInt("Rekeningnummer");
-                    System.out.println("REKNUMMERS: " + reknummer);
-                    list.add(reknummer);
-                }
-
-            } else {
-                System.out.println("No Success");
-            }
-
-        } catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        } catch (Exception e) {
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        } finally {
-            //System.out.println(gegevens.getKlanten().toString());
-            //finally block used to close resources
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException se2) {
-            }// nothing we can do
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }//end finally try
-        }
-        
-        return list;
-    }
+    
+    
+//    public static List loadCBItems(String userName)
+//    {
+//        List<Integer> list = new ArrayList<Integer>();
+//          Connection conn = null;
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//        try {
+//
+//            conn = DBconnector.getConnection();
+//
+//            //STEP 4: Execute a query
+//            System.out.println("Creating statement...");
+//
+//            stmt = conn.createStatement();
+//            String sql;
+//
+//            sql = "SELECT * FROM klant WHERE Naam ='" + userName + "'";
+//
+//            Statement statement = conn.createStatement();
+//            rs = stmt.executeQuery(sql);
+//            if (rs.next()) {
+//                System.out.println("USERNAME: " + userName);
+//                int klantID = rs.getInt("KlantID");
+//                sql = "SELECT * FROM bankrekening WHERE KlantID ='" + klantID + "'";
+//                statement = conn.createStatement();
+//                rs = stmt.executeQuery(sql);
+//
+//                while (rs.next()) {
+//                    int reknummer = rs.getInt("Rekeningnummer");
+//                    System.out.println("REKNUMMERS: " + reknummer);
+//                    list.add(reknummer);
+//                }
+//
+//            } else {
+//                System.out.println("No Success");
+//            }
+//
+//        } catch (SQLException se) {
+//            //Handle errors for JDBC
+//            se.printStackTrace();
+//        } catch (Exception e) {
+//            //Handle errors for Class.forName
+//            e.printStackTrace();
+//        } finally {
+//            //System.out.println(gegevens.getKlanten().toString());
+//            //finally block used to close resources
+//            try {
+//                if (stmt != null) {
+//                    stmt.close();
+//                }
+//            } catch (SQLException se2) {
+//            }// nothing we can do
+//            try {
+//                if (conn != null) {
+//                    conn.close();
+//                }
+//            } catch (SQLException se) {
+//                se.printStackTrace();
+//            }//end finally try
+//        }
+//        
+//        return list;
+//    }
     
     private static void transactie(double bedrag, int vanRekening, int naarRekening)
     {

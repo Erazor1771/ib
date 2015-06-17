@@ -94,11 +94,10 @@ public class MainViewController implements screenController {
         this.loadBankrekeningInformation(tempKlantID);
 
         // TODO: For Loop voor alle rekeningen bij klant (nu gewoon 1 rekening max tonen)
-        
         bank = new Bank("ABN");
         bankclientcontroller = new Bankclientcontroller(this);
         bankclientcontroller.selectRekeningen(tempKlantID);
-        
+
         this.loadComboBoxItems();
     }
 
@@ -125,7 +124,7 @@ public class MainViewController implements screenController {
     public void loadBankrekeningInformation(int klantID) {
 
 //////  
-     // rekeningenLijst = DBconnector.getAllRekeningen();
+        // rekeningenLijst = DBconnector.getAllRekeningen();
 ////        
 //////        DBconnector.getAllRekeningen();
 //////        bankclientcontroller.selectRekeningen(klantID);
@@ -141,7 +140,6 @@ public class MainViewController implements screenController {
 //            }
 //
 //        }
-
     }
 
     /**
@@ -169,8 +167,19 @@ public class MainViewController implements screenController {
         List<Integer> list = new ArrayList<Integer>();
 
         String user = Sessie.getUserName();
+        
+      
 
-        list = DBconnector.loadCBItems(user);
+       // list = DBconnector.loadCBItems(user);
+
+        for (Bankrekening rek : rekeningenLijst) {
+                
+             if(rek.getKlantID() == tempKlantID)
+             {
+                 list.add(rek.getNummer());
+             }
+
+        }
 
         ObservableList obList = FXCollections.observableList(list);
         rekeningenCombo.getItems().clear();
@@ -192,11 +201,11 @@ public class MainViewController implements screenController {
 
         int naarRekening = Integer.parseInt(txtFieldTegenRekening.getText());
         int vanRekening = Integer.parseInt(rekeningenCombo.getSelectionModel().getSelectedItem().toString());
-        
+
         bank.transactieUitvoeren(vanRekening, naarRekening, bedrag);
 
         getCBValue();
-        
+
     }
 
     private void getCBValue() {
@@ -210,9 +219,8 @@ public class MainViewController implements screenController {
 
       // rekeningenLijst = DBconnector.getAllRekeningen();
         //DBconnector.getAllRekeningen();
-        
         bankclientcontroller.selectRekeningen(tempKlantID);
-        
+
         for (Bankrekening rek : rekeningenLijst) {
 
             if (String.valueOf(rek.getNummer()).equals(selected)) {
@@ -225,10 +233,9 @@ public class MainViewController implements screenController {
         }
 
     }
-    
-    public void setRekeningen(List<Bankrekening> rekeningen)
-    {
-       
+
+    public void setRekeningen(List<Bankrekening> rekeningen) {
+
         rekeningenLijst = rekeningen;
     }
 }
