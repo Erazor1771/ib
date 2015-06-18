@@ -82,48 +82,43 @@ public class MainViewController implements screenController {
     private List<Bankrekening> rekeningenLijst;
     private Bankclientcontroller bankclientcontroller;
     int tempKlantID;
-    private String tempUser;
-    
 
-    
     public void initialize() throws IOException {
-        // sessionLabel.setText(lc.generateSessionID());
-        //System.out.println(klanten.getKlanten().size());
-        //System.out.println(tempUser);
-        //String tempUser = Sessie.getUserName();
-        //tempKlantID = 0;
-        
-        //this.loadKlantInformation(tempUser);
-        //this.loadBankrekeningInformation(tempKlantID);
+        sessionLabel.setText(lc.generateSessionID());
+        System.out.println(klanten.getKlanten().size());
+
+        String tempUser = Sessie.getUserName();
+        tempKlantID = Sessie.getKlantID();
+
+        this.loadKlantInformation(tempUser);
+        this.loadBankrekeningInformation(tempKlantID);
 
         // TODO: For Loop voor alle rekeningen bij klant (nu gewoon 1 rekening max tonen)
-        //bank = new Bank("ABN");
+        bank = new Bank("ABN");
         bankclientcontroller = new Bankclientcontroller(this);
-        //bankclientcontroller.selectRekeningen(tempKlantID);
+        bankclientcontroller.selectRekeningen(tempKlantID);
 
-        //this.loadComboBoxItems();
-        
-        
+        this.loadComboBoxItems();
     }
 
     @Override
-    public void setScreenParent(screensController screenParent, String iets) {
+    public void setScreenParent(screensController screenParent) {
         myController = screenParent;
-        tempUser = iets;
-        System.out.println(tempUser);
     }
 
     @FXML
-    private void returnToLoginScreen(ActionEvent event) {
-
+    private void returnToLoginScreen(ActionEvent event) throws IOException {
+        
+        bankclientcontroller.getS().close();
         myController.setScreen(BankView.screen1ID);
+        
 
     }
 
     @FXML
     private void maakBankrekeningWindow(ActionEvent event) {
 
-       // myController.loadScreen(BankView.screen4ID, BankView.screen4File);
+        myController.loadScreen(BankView.screen4ID, BankView.screen4File);
         myController.setScreen(BankView.screen4ID);
 
     }
@@ -173,7 +168,7 @@ public class MainViewController implements screenController {
         // Load ComboBox Rekeningen
         List<Integer> list = new ArrayList<Integer>();
 
-        String user = "";
+        String user = Sessie.getUserName();
         
       
 

@@ -149,16 +149,14 @@ public class LoginController implements screenController{
     }
     
     @Override
-    public void setScreenParent(screensController screenParent, String iets) {
+    public void setScreenParent(screensController screenParent) {
         myController = screenParent;
-        String ietsje = iets;
-        System.out.println(ietsje);
     }
     
     @FXML
     private void RegistreerAction(ActionEvent event) {
 
-         myController.loadScreen(BankView.screen3ID, BankView.screen3File,"iets");
+         myController.loadScreen(BankView.screen3ID, BankView.screen3File);
          myController.setScreen(BankView.screen3ID);
          
     }
@@ -170,11 +168,11 @@ public class LoginController implements screenController{
         
         if (sessionID.contains("succeeded")) {
             
-            myController.loadScreen("mainview", "/view/mainview.fxml", "iets");
+            myController.loadScreen("mainview", "/view/mainview.fxml");
             myController.setScreen(BankView.screen2ID);
-            
+
         }
-        
+
     }
 
 //    public String getSessionID() {

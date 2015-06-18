@@ -45,12 +45,12 @@ public class screensController  extends StackPane {
 
     //Loads the fxml file, add the screen to the screens collection and
     //finally injects the screenPane to the controller.
-    public boolean loadScreen(String name, String resource, String iets) {
+    public boolean loadScreen(String name, String resource) {
         try {
             FXMLLoader myLoader = new FXMLLoader(getClass().getResource(resource));
             Parent loadScreen = (Parent) myLoader.load();
             screenController myScreenControler = ((screenController) myLoader.getController());
-            myScreenControler.setScreenParent(this, iets);
+            myScreenControler.setScreenParent(this);
             addScreen(name, loadScreen);
             return true;
         } catch (Exception e) {

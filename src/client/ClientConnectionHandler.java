@@ -7,8 +7,6 @@ package client;
 
 import internetbankieren.Bankrekening;
 import internetbankieren.Bankrekeningen;
-import controller.MainViewController;
-import internetbankieren.DBconnector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -17,63 +15,72 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author 310054544
  */
-public class Bankclientcontroller {
-    
-    MainViewController mainview;
-    Bankrekeningen rekeningen;
+public class ClientConnectionHandler implements Runnable {
+
     Socket s;
-    OutputStream outStream;
+    Bankrekeningen rekeningen;
+    List<Bankrekening> rekNummers;
+    
+        OutputStream outStream;
     InputStream inStream;
 
     // Let op: volgorde is van belang!
     ObjectOutputStream out;
     ObjectInputStream in;
-    
+    Bankclientcontroller bc;
 
-    public Bankclientcontroller(MainViewController mainview) throws IOException {
-        
-        this.s = new Socket("localhost", 8189);
-        this.outStream = s.getOutputStream();
+    public ClientConnectionHandler(Socket s, Bankclientcontroller bc) throws IOException {
+
+        this.s = s;
+        this.rekeningen = new Bankrekeningen();
+               this.outStream = s.getOutputStream();
         this.inStream = s.getInputStream();
         this.out = new ObjectOutputStream(outStream);
         this.in = new ObjectInputStream(inStream);
-        this.rekeningen = new Bankrekeningen();
-        this.mainview = mainview;
+        this.bc = bc;
+
     }
 
-    public Socket getS() {
-        return s;
+    public List<Bankrekening> getRekNummers() {
+        return rekNummers;
     }
+
 
     
     
-        public void selectRekeningen(int klantID) {
-        List<Bankrekening> rekNummers = rekeningen.getAllRekeningen();
-        List<Bankrekening> rekKlant = new ArrayList<>();
-        Bankrekening rek = null;
-            
-        
-        for (Bankrekening r : rekNummers) {
-            
-            if(r.getKlantID() == klantID)
-            {
-               rekKlant.add(r);
-               
-                rek = r;
-                
-            }
-            
+
+    @Override
+    public void run() {
+
+        try {
+            this.s = new Socket("localhost", 8189);
+        } catch (IOException ex) {
+            Logger.getLogger(ClientConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        mainview.setRekeningen(rekKlant);
 
-         try {
-           
-            String test = rekNummers.toString();
+        List<Bankrekening> rekNummers = rekeningen.getAllRekeningen();
+        
+       
+        
+
+//        for (Bankrekening r : rekNummers) {
+//
+//
+//                rek = r;
+//
+//        }
+        //mainview.setRekeningen(rekKlant);
+
+        try {
+
+            String test = rekeningen.toString();
             System.out.println("sending mb: " + test);
             out.writeObject(test);
             out.flush();
@@ -88,5 +95,5 @@ public class Bankclientcontroller {
         }
 
     }
-    
+
 }

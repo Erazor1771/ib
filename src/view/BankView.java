@@ -29,7 +29,8 @@ public class BankView extends Application {
     @Override public void start(Stage primaryStage) throws IOException {
     
           screensController mainContainer = new screensController();
-          mainContainer.loadScreen(BankView.screen1ID, BankView.screen1File, "ok");
+
+          mainContainer.loadScreen(BankView.screen1ID, BankView.screen1File);
           mainContainer.setScreen(BankView.screen1ID);
 
           Group root = new Group();

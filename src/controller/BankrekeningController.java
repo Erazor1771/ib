@@ -68,7 +68,7 @@ public class BankrekeningController implements Initializable, screenController {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         banknummerid++;
-        String tempUser = "";
+        String tempUser = Sessie.getUserName();
         bankrekeningNummerField.setText(Integer.toString(banknummerid));
         klantField.setText(tempUser);
     }    
@@ -76,7 +76,7 @@ public class BankrekeningController implements Initializable, screenController {
     @FXML
     private void maakBankrekening(ActionEvent event) {
         
-        String userName = "";
+        String userName = Sessie.getUserName();
         Connection conn = null;
         Statement stmt = null;
 
@@ -131,7 +131,7 @@ public class BankrekeningController implements Initializable, screenController {
                
                 //System.out.println(gegevens.getGegevens().toString());
                 
-                myController.loadScreen("mainview", "/view/mainview.fxml", "iets");
+                myController.loadScreen("mainview", "/view/mainview.fxml");
                 myController.setScreen(BankView.screen2ID);
                 
                 
@@ -165,7 +165,7 @@ public class BankrekeningController implements Initializable, screenController {
     }
     
     @Override
-    public void setScreenParent(screensController screenParent, String iets) {
+    public void setScreenParent(screensController screenParent) {
         myController = screenParent;
     }
     

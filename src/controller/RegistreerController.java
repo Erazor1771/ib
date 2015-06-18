@@ -135,7 +135,7 @@ public class RegistreerController implements screenController {
                 rs = stmt.executeQuery(sql);
                 System.out.println(gegevens.getGegevens().toString());
                 
-             //   myController.loadScreen("login", "/view/login.fxml");
+                myController.loadScreen("login", "/view/login.fxml");
                 myController.setScreen(BankView.screen1ID);
                 
                 return gegevens.getGegevens();
@@ -171,7 +171,7 @@ public class RegistreerController implements screenController {
     }
 
     @Override
-    public void setScreenParent(screensController screenParent, String iets) {
+    public void setScreenParent(screensController screenParent) {
         myController = screenParent;
     }
 
