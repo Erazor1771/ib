@@ -17,8 +17,8 @@ import java.util.List;
 public class Sessie implements ISessie{
     
     private String sessieID;
-    private static String userName;
-    private static int klantID;
+    private String userName;
+    private int klantID;
     private ArrayList sessie;
 
     public Sessie(int klantID, String userName) {
@@ -42,11 +42,11 @@ public class Sessie implements ISessie{
         return sessieID;
     }
 
-    public static String getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public static int getKlantID() {
+    public int getKlantID() {
         return klantID;
     }
     

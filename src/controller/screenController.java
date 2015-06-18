@@ -12,6 +12,6 @@ package controller;
 public interface screenController {
     
     //This method will allow the injection of the Parent ScreenPane
-    public void setScreenParent(screensController screenPage);
+    public void setScreenParent(screensController screenPage, String sessie);
     
 }
