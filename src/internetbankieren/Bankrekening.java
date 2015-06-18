@@ -2,6 +2,8 @@
 package internetbankieren;
 
 import interfaces.IBankrekening;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bankrekening implements IBankrekening{
     
@@ -10,25 +12,36 @@ public class Bankrekening implements IBankrekening{
     private double saldo;
     private double kredietlimiet;
     private int klantID;
+    private List<Transactie> transacties;
+    private Bank bank;
+    
 
     public Bankrekening(int nummer, Klant k, double saldo, double kredietlimiet) {
         this.nummer = nummer;
         this.k = k;
         this.saldo = saldo;
         this.kredietlimiet = kredietlimiet;
-        //this.klantID = klantID;
+        
     }
     
     //Bankrekening(reknummer, saldo, klantID, kredietLimiet);
     
-     public Bankrekening(int nummer, double saldo, int klantID, double kredietlimiet) {
+     public Bankrekening(Bank bank, int nummer, double saldo, int klantID, double kredietlimiet) {
          
         this.nummer = nummer;
         this.klantID = klantID;
         this.saldo = saldo;
         this.kredietlimiet = kredietlimiet;
+        this.bank = bank;
+        this.transacties = new ArrayList<>();
      
      }
+
+    public List<Transactie> getTransacties() {
+        return transacties;
+    }
+     
+     
     
     public int getNummer() {
         return nummer;
@@ -63,8 +76,15 @@ public class Bankrekening implements IBankrekening{
     }
 
     @Override
-    public boolean overschrijven(int naarRekNummer, double bedrag) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean overschrijven(int vanRekNummer, int naarRekNummer, double bedrag) {
+        
+        bank.transactieUitvoeren(vanRekNummer, naarRekNummer, bedrag);
+        
+        Transactie transactie = new Transactie(vanRekNummer, naarRekNummer, bedrag);
+        transacties.add(transactie);
+        
+        return true;
+        
     }
 
     @Override

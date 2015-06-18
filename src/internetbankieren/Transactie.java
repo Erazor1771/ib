@@ -10,10 +10,9 @@ public class Transactie {
     private int vanBank;
     private int naarBank;
 
-    public Transactie(double bedrag, String datum, String omschrijving, int vanBank, int naarBank) {
+    public Transactie(int vanBank, int naarBank, double bedrag) {
         this.bedrag = bedrag;
-        this.datum = datum;
-        this.omschrijving = omschrijving;
+
         this.vanBank = vanBank;
         this.naarBank = naarBank;
     }
@@ -36,6 +35,14 @@ public class Transactie {
 
     public int getNaarBank() {
         return naarBank;
+    }
+
+    @Override
+    public String toString() {
+        
+        String result = "Van: " + vanBank + " - naar: " + naarBank + " - Bedrag " + bedrag + " Euro";
+        
+        return result;
     }
 
 

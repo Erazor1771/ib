@@ -42,6 +42,7 @@ public class Bank implements IBank {
 
     @Override
     public boolean transactieUitvoeren(int vanRekNum, int naarRekNum, double bedrag) {
+        
         Connection conn = null;
         Statement stmt = null;
         String saldoNaar = "";
@@ -94,6 +95,7 @@ public class Bank implements IBank {
             sql = "UPDATE bankrekening SET Saldo = '" + eindsaldoVan+ "' WHERE Rekeningnummer = '" + vanRekNum + "'";
 
             stmt.executeUpdate(sql);
+            
             
 
         } catch (SQLException se) {

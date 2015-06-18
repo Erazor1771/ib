@@ -82,6 +82,8 @@ public class MainViewController implements screenController {
     private List<Bankrekening> rekeningenLijst;
     private Bankclientcontroller bankclientcontroller;
     int tempKlantID;
+    @FXML
+    private ListView<Transactie> listTransacties;
 
     public void initialize() throws IOException {
         sessionLabel.setText(lc.generateSessionID());
@@ -198,13 +200,26 @@ public class MainViewController implements screenController {
 
     @FXML
     private void btnTransferAction(ActionEvent event) {
+        
+        Bankrekening br = null;
 
         double bedrag = Double.parseDouble(txtFieldBedrag.getText());
 
         int naarRekening = Integer.parseInt(txtFieldTegenRekening.getText());
         int vanRekening = Integer.parseInt(rekeningenCombo.getSelectionModel().getSelectedItem().toString());
-
-        bank.transactieUitvoeren(vanRekening, naarRekening, bedrag);
+        
+        for(Bankrekening rek : rekeningenLijst)
+        {
+            if(rek.getNummer() == vanRekening)
+            {
+                br = rek;
+            }
+        }
+        
+        br.overschrijven(vanRekening, naarRekening, bedrag);
+       // bank.transactieUitvoeren(vanRekening, naarRekening, bedrag);
+        
+        laatTransactiesZien();
 
         getCBValue();
 
@@ -235,9 +250,31 @@ public class MainViewController implements screenController {
         }
 
     }
+    
+    public void laatTransactiesZien()
+    {
+        String selected = rekeningenCombo.getSelectionModel().getSelectedItem().toString();
+        
+        ObservableList<Transactie> items = null;
+        
+        for(Bankrekening br : rekeningenLijst)
+        {
+            if(br.getNummer() == Integer.parseInt(selected))
+            {
+                items = FXCollections.observableArrayList(br.getTransacties());
+                break;
+            }
+            
+        }
+        
+        listTransacties.setItems(items);
+
+    }
 
     public void setRekeningen(List<Bankrekening> rekeningen) {
 
         rekeningenLijst = rekeningen;
     }
+    
+    
 }

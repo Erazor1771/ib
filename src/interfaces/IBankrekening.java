@@ -29,5 +29,5 @@ public interface IBankrekening {
      * @param bedrag het bedrag in euro's wat moet worden overgemaakt (formaat: 2,30)
      * @return true of false
      */
-    public boolean overschrijven(int naarRekNummer, double bedrag);
+    public boolean overschrijven(int vanRekNummer, int naarRekNummer, double bedrag);
 }

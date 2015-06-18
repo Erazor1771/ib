@@ -17,9 +17,11 @@ public class Bankrekeningen {
     
     
     private ArrayList<Bankrekening> bankrekeningen;
+    private Bank bank;
     
     public Bankrekeningen() {
         bankrekeningen = new ArrayList();
+        bank = new Bank("ABN");
     }
     
     public List<Bankrekening> getAllRekeningen() {
@@ -48,7 +50,9 @@ public class Bankrekeningen {
                 int klantID = rs.getInt("KlantID");
                 double kredietLimiet = rs.getDouble("Kredietlimiet");
                 // maak nieuw persoonobject
-                Bankrekening newRekening = new Bankrekening(reknummer, saldo, klantID, kredietLimiet);
+                
+                
+                Bankrekening newRekening = new Bankrekening(bank,reknummer, saldo, klantID, kredietLimiet);
                 // voeg toe aan lijst
 
                 lijst.add(newRekening);
