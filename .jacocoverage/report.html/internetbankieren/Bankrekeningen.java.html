@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Bankrekeningen.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;InternetBankieren&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">internetbankieren</a> &gt; <span class="el_source">Bankrekeningen.java</span></div><h1>Bankrekeningen.java</h1><pre class="source lang-java linenums">
+package internetbankieren;
+ 
+import internetbankieren.Bankrekening;
+import internetbankieren.Klant;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+public class Bankrekeningen {
+    
+    
+    private ArrayList&lt;Bankrekening&gt; bankrekeningen;
+    private Bank bank;
+    
+<span class="fc" id="L22">    public Bankrekeningen() {</span>
+<span class="fc" id="L23">        bankrekeningen = new ArrayList();</span>
+<span class="fc" id="L24">        bank = new Bank(&quot;ABN&quot;);</span>
+<span class="fc" id="L25">    }</span>
+    
+    public List&lt;Bankrekening&gt; getAllRekeningen() {
+        //public static void getAllRekeningen() {
+
+<span class="nc" id="L30">        Connection conn = null;</span>
+<span class="nc" id="L31">        Statement stmt = null;</span>
+<span class="nc" id="L32">        ResultSet rs = null;</span>
+
+<span class="nc" id="L34">        List&lt;Bankrekening&gt; lijst = new ArrayList&lt;Bankrekening&gt;();</span>
+        try {
+
+<span class="nc" id="L37">            conn = DBconnector.getConnection();</span>
+            // haal alle records op
+
+<span class="nc" id="L40">            stmt = conn.createStatement();</span>
+            String sql;
+
+<span class="nc" id="L43">            sql = &quot;SELECT * FROM bankrekening&quot;;</span>
+<span class="nc" id="L44">            rs = stmt.executeQuery(sql);</span>
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L47">                int reknummer = rs.getInt(&quot;Rekeningnummer&quot;);</span>
+<span class="nc" id="L48">                double saldo = rs.getDouble(&quot;Saldo&quot;);</span>
+                //String ww = rs.getString(&quot;Wachtwoord&quot;);
+<span class="nc" id="L50">                int klantID = rs.getInt(&quot;KlantID&quot;);</span>
+<span class="nc" id="L51">                double kredietLimiet = rs.getDouble(&quot;Kredietlimiet&quot;);</span>
+                // maak nieuw persoonobject
+                
+                
+<span class="nc" id="L55">                Bankrekening newRekening = new Bankrekening(bank,reknummer, saldo, klantID, kredietLimiet);</span>
+                // voeg toe aan lijst
+
+<span class="nc" id="L58">                lijst.add(newRekening);</span>
+<span class="nc" id="L59">                bankrekeningen.add(newRekening);</span>
+<span class="nc" id="L60">            }</span>
+<span class="nc" id="L61">        } catch (SQLException ex) {</span>
+<span class="nc" id="L62">            Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+            //finally block used to close resources
+<span class="nc" id="L65">            try {</span>
+<span class="nc bnc" id="L66" title="All 6 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L67">                    stmt.close();</span>
+                }
+<span class="nc" id="L69">            } catch (SQLException se2) {</span>
+<span class="nc" id="L70">            }// nothing we can do</span>
+            try {
+<span class="nc bnc" id="L72" title="All 6 branches missed.">                if (conn != null) {</span>
+<span class="nc" id="L73">                    conn.close();</span>
+                }
+<span class="nc" id="L75">            } catch (SQLException se) {</span>
+<span class="nc" id="L76">            }//end finally try</span>
+
+<span class="nc" id="L78">        }</span>
+<span class="nc" id="L79">       return lijst;</span>
+    }
+    
+    /**
+     * Voeg een Bankrekening object toe aan bankrekeningen (arraylist)
+     * @param br een bankrekening Object om toe te voegen aan bankrekeningen (arraylist)
+     */
+    public void addBankrekening(Bankrekening br)
+    {
+<span class="fc" id="L88">        bankrekeningen.add(br);</span>
+<span class="fc" id="L89">    }</span>
+    /**
+     * Vraag het aantal elementen uit bankrekeningen op
+     * @return het aantal elementen van bankrekeningen (arraylist)
+     */
+    public int getSize(){
+<span class="nc" id="L95">        return bankrekeningen.size();</span>
+    }
+    /**
+     * Vraag een Arraylist van bankrekeningen op 
+     * @return bankrekeningen
+     */
+    public ArrayList getBankrekeningen(){
+<span class="nc" id="L102">        return bankrekeningen;</span>
+    }
+    /**
+     * Vraag een bankrekening object op d.m.v. index
+     * @param index is een int en geeft de index aan van het object die opgevraagd moet worden
+     * @return Bankrekening br object
+     */
+    public Bankrekening getBankrekening(int index){
+<span class="nc" id="L110">        return bankrekeningen.get(index);</span>
+    }
+    
+    /**
+     * Maak een bankrekening aan voor een klant
+     * Als er velden leeg zijn dan kan er geen bankrekening worden aangemaakt
+     * Als het saldo negatief is dan kan er geen bankrekening worden aangemaakt
+     * Bankrekeningnummer moet 9 cijfers lang zijn anders kan deze niet worden aangemaakt
+     * 
+     * @param nummer bankrekeningnummer als een int, deze is altijd uniek en 9 cijfers lang
+     * @param k Klant k object, om de bankrekening aan de juiste klant te koppelen
+     * @param saldo een double om saldo van de bankrekening bij te houden
+     * @param kredietlimiet een double om het kredietlimiet van een klant bij te houden
+     * @return true als er een bankrekening succesvol wordt aangemaakt, false als dit niet het geval is
+     */
+    public boolean maakBankrekening(int nummer, Klant k, double saldo, double kredietlimiet){
+        // TODO Add Klant k check
+<span class="pc bpc" id="L127" title="3 of 6 branches missed.">        if(nummer == 0 || saldo == 0 || kredietlimiet == 0){</span>
+<span class="nc" id="L128">            System.out.println(&quot;Bankrekening kan niet aangemaakt worden, veld(en) zijn leeg.&quot;);</span>
+<span class="nc" id="L129">            return false;</span>
+        }
+<span class="fc bfc" id="L131" title="All 2 branches covered.">        if(String.valueOf(nummer).length() != 9){</span>
+<span class="fc" id="L132">            System.out.println(&quot;Bankrekeningnummer moet 9 cijfers bevatten.&quot;);</span>
+<span class="fc" id="L133">            return false;</span>
+        }
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if(saldo &lt; 0){</span>
+<span class="fc" id="L136">            System.out.println(&quot;Bankrekening kan niet aangemaakt worden, saldo moet positief zijn of 0.&quot;);</span>
+<span class="fc" id="L137">            return false; </span>
+        }
+        
+<span class="fc" id="L140">        Bankrekening br = new Bankrekening(nummer, k, saldo, kredietlimiet);</span>
+<span class="fc" id="L141">        addBankrekening(br);</span>
+<span class="fc" id="L142">        System.out.println(&quot;Bankrekening is aangemaakt: &quot; + br.toString());</span>
+<span class="fc" id="L143">        return true;</span>
+    }
+    
+    /**
+     * To String methode van bankrekeningen
+     * @return string met bankrekeningen gegevens
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L152">        return &quot;Bankrekeningen{&quot; + &quot;bankrekeningen=&quot; + bankrekeningen + '}';</span>
+    }
+    
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

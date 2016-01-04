@@ -70,8 +70,11 @@ public class Bank implements IBank {
 
                 saldoNaar = rs.getString("Saldo");
 
-            } else {
+            } 
+            else{
+             
                 System.out.println("No Success");
+              
             }
 
             sql = "SELECT Saldo FROM bankrekening WHERE Rekeningnummer = '" + vanRekNum + "'";
@@ -83,7 +86,11 @@ public class Bank implements IBank {
 
             } else {
                 System.out.println("No Success");
+                return false;
             }
+            
+            if( Double.parseDouble(saldoVan) >= bedrag)
+            {
 
             Double eindsaldoNaar = bedrag + Double.parseDouble(saldoNaar);
             Double eindsaldoVan = Double.parseDouble(saldoVan) - bedrag;
@@ -95,6 +102,12 @@ public class Bank implements IBank {
             sql = "UPDATE bankrekening SET Saldo = '" + eindsaldoVan+ "' WHERE Rekeningnummer = '" + vanRekNum + "'";
 
             stmt.executeUpdate(sql);
+            }
+            else
+            {
+                System.out.println("Onvoldoende saldo");
+                return false;
+            }
             
             
 
@@ -121,9 +134,9 @@ public class Bank implements IBank {
                 se.printStackTrace();
             }//end finally try
         }
-
-        return true;
-    }
+        
+            return true;
+        }
 
     @Override
     public Bank getBank(String bankcode) {

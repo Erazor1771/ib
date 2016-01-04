@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MainViewController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;InternetBankieren&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">MainViewController.java</span></div><h1>MainViewController.java</h1><pre class="source lang-java linenums">package controller;
+
+import internetbankieren.Bank;
+import internetbankieren.Bankrekening;
+import internetbankieren.Bankrekeningen;
+import client.Bankclientcontroller;
+import internetbankieren.DBconnector;
+import internetbankieren.Klant;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import internetbankieren.Klanten;
+import internetbankieren.Sessie;
+import internetbankieren.Transactie;
+import java.io.IOException;
+import java.net.Socket;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.*;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.Scene;
+import view.BankView;
+
+/**
+ * Controls the main application screen
+ */
+<span class="fc" id="L32">public class MainViewController implements screenController {</span>
+
+    screensController myController;
+<span class="fc" id="L35">    LoginController lc = new LoginController();</span>
+<span class="fc" id="L36">    RegistreerController rc = new RegistreerController();</span>
+<span class="fc" id="L37">    Klanten klanten = new Klanten();</span>
+    Sessie sessie;
+
+    // STEP 1: JDBC driver name and database URL
+    static final String JDBC_DRIVER = &quot;com.mysql.jdbc.Driver&quot;;
+    static final String DB_URL = &quot;jdbc:mysql://localhost/internetbank&quot;;
+
+    //  Database credentials
+    static final String USER = &quot;root&quot;;
+    static final String PASS = &quot;&quot;;
+
+    private int rekeningnummer;
+
+    @FXML
+    private Button logoutButton;
+    @FXML
+    private Label sessionLabel;
+    @FXML
+    private Label naamLabel;
+    @FXML
+    private Label woonplaatsLabel;
+    @FXML
+    private Label saldoLabel;
+    @FXML
+    private Label kredietlimietLabel;
+    @FXML
+    private Label lblRekeningNummer;
+    @FXML
+    private Label lblNaw;
+    @FXML
+    private Label lblSaldo;
+    @FXML
+    private TextField txtFieldBedrag;
+    @FXML
+    private TextField txtFieldTegenRekening;
+    @FXML
+    private Button btnTransfer;
+    @FXML
+    private Button btnNewReknummer;
+    @FXML
+    private ComboBox rekeningenCombo;
+
+    private Bank bank;
+    private DBconnector dbconnector;
+    private List&lt;Klant&gt; Klantenlijst;
+    private List&lt;Bankrekening&gt; rekeningenLijst;
+    private Bankclientcontroller bankclientcontroller;
+    int tempKlantID;
+    @FXML
+    private ListView&lt;Transactie&gt; listTransacties;
+
+    public void initialize() throws IOException {
+<span class="nc" id="L89">        sessionLabel.setText(lc.generateSessionID());</span>
+<span class="nc" id="L90">        System.out.println(klanten.getKlanten().size());</span>
+
+<span class="nc" id="L92">        String tempUser = Sessie.getUserName();</span>
+<span class="nc" id="L93">        tempKlantID = Sessie.getKlantID();</span>
+
+<span class="nc" id="L95">        this.loadKlantInformation(tempUser);</span>
+<span class="nc" id="L96">        this.loadBankrekeningInformation(tempKlantID);</span>
+
+        // TODO: For Loop voor alle rekeningen bij klant (nu gewoon 1 rekening max tonen)
+<span class="nc" id="L99">        bank = new Bank(&quot;ABN&quot;);</span>
+<span class="nc" id="L100">        bankclientcontroller = new Bankclientcontroller(this);</span>
+<span class="nc" id="L101">        bankclientcontroller.selectRekeningen(tempKlantID);</span>
+
+<span class="nc" id="L103">        this.loadComboBoxItems();</span>
+<span class="nc" id="L104">    }</span>
+
+    @Override
+    public void setScreenParent(screensController screenParent) {
+<span class="nc" id="L108">        myController = screenParent;</span>
+<span class="nc" id="L109">    }</span>
+
+    @FXML
+    private void returnToLoginScreen(ActionEvent event) throws IOException {
+        
+<span class="nc" id="L114">        bankclientcontroller.getS().close();</span>
+<span class="nc" id="L115">        myController.setScreen(BankView.screen1ID);</span>
+        
+
+<span class="nc" id="L118">    }</span>
+
+    @FXML
+    private void maakBankrekeningWindow(ActionEvent event) {
+
+<span class="nc" id="L123">        myController.loadScreen(BankView.screen4ID, BankView.screen4File);</span>
+<span class="nc" id="L124">        myController.setScreen(BankView.screen4ID);</span>
+
+<span class="nc" id="L126">    }</span>
+
+    public void loadBankrekeningInformation(int klantID) {
+
+//////  
+        // rekeningenLijst = DBconnector.getAllRekeningen();
+////        
+//////        DBconnector.getAllRekeningen();
+//////        bankclientcontroller.selectRekeningen(klantID);
+////
+//        for (Bankrekening rek : rekeningenLijst) {
+//
+//            if (rek.getKlantID() == klantID) {
+//
+//                rekeningnummer = rek.getNummer();
+//                saldoLabel.setText(String.valueOf(rek.getSaldo()));
+//                kredietlimietLabel.setText(String.valueOf(rek.getKredietlimiet()));
+//
+//            }
+//
+//        }
+<span class="nc" id="L147">    }</span>
+
+    /**
+     * Get Klant Information for MainViewController
+     */
+    public void loadKlantInformation(String userName) {
+
+<span class="fc" id="L154">        DBconnector.loadKlantInformation(userName);</span>
+<span class="fc" id="L155">        DBconnector.getConnection();</span>
+<span class="fc" id="L156">        Klantenlijst = DBconnector.getAllPersoon();</span>
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        for (Klant k : Klantenlijst) {</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">            if (k.getName().equals(userName)) {</span>
+<span class="nc" id="L160">                naamLabel.setText(k.getName());</span>
+<span class="nc" id="L161">                woonplaatsLabel.setText(k.getCity());</span>
+<span class="nc" id="L162">                break;</span>
+            }
+
+<span class="fc" id="L165">        }</span>
+
+<span class="fc" id="L167">    }</span>
+
+    public void loadComboBoxItems() {
+        // Load ComboBox Rekeningen
+<span class="nc" id="L171">        List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</span>
+
+<span class="nc" id="L173">        String user = Sessie.getUserName();</span>
+        
+      
+
+       // list = DBconnector.loadCBItems(user);
+
+<span class="nc bnc" id="L179" title="All 2 branches missed.">        for (Bankrekening rek : rekeningenLijst) {</span>
+                
+<span class="nc bnc" id="L181" title="All 2 branches missed.">             if(rek.getKlantID() == tempKlantID)</span>
+             {
+<span class="nc" id="L183">                 list.add(rek.getNummer());</span>
+             }
+
+<span class="nc" id="L186">        }</span>
+
+<span class="nc" id="L188">        ObservableList obList = FXCollections.observableList(list);</span>
+<span class="nc" id="L189">        rekeningenCombo.getItems().clear();</span>
+<span class="nc" id="L190">        rekeningenCombo.setItems(obList);</span>
+<span class="nc" id="L191">        rekeningenCombo.getSelectionModel().selectFirst();</span>
+<span class="nc" id="L192">    }</span>
+
+    @FXML
+    private void cbRekeningenAction(ActionEvent event) {
+
+<span class="nc" id="L197">        getCBValue();</span>
+
+<span class="nc" id="L199">    }</span>
+
+    @FXML
+    private void btnTransferAction(ActionEvent event) {
+        
+<span class="nc" id="L204">        Bankrekening br = null;</span>
+
+<span class="nc" id="L206">        double bedrag = Double.parseDouble(txtFieldBedrag.getText());</span>
+
+<span class="nc" id="L208">        int naarRekening = Integer.parseInt(txtFieldTegenRekening.getText());</span>
+<span class="nc" id="L209">        int vanRekening = Integer.parseInt(rekeningenCombo.getSelectionModel().getSelectedItem().toString());</span>
+        
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        for(Bankrekening rek : rekeningenLijst)</span>
+        {
+<span class="nc bnc" id="L213" title="All 2 branches missed.">            if(rek.getNummer() == vanRekening)</span>
+            {
+<span class="nc" id="L215">                br = rek;</span>
+            }
+<span class="nc" id="L217">        }</span>
+        
+<span class="nc" id="L219">        br.overschrijven(vanRekening, naarRekening, bedrag);</span>
+       // bank.transactieUitvoeren(vanRekening, naarRekening, bedrag);
+        
+<span class="nc" id="L222">        laatTransactiesZien();</span>
+
+<span class="nc" id="L224">        getCBValue();</span>
+
+<span class="nc" id="L226">    }</span>
+
+    private void getCBValue() {
+
+<span class="nc" id="L230">        String selected = rekeningenCombo.getSelectionModel().getSelectedItem().toString();</span>
+
+<span class="nc" id="L232">        updateSaldo(selected);</span>
+<span class="nc" id="L233">    }</span>
+
+    private void updateSaldo(String selected) {
+
+      // rekeningenLijst = DBconnector.getAllRekeningen();
+        //DBconnector.getAllRekeningen();
+<span class="nc" id="L239">        bankclientcontroller.selectRekeningen(tempKlantID);</span>
+
+<span class="nc bnc" id="L241" title="All 2 branches missed.">        for (Bankrekening rek : rekeningenLijst) {</span>
+
+<span class="nc bnc" id="L243" title="All 2 branches missed.">            if (String.valueOf(rek.getNummer()).equals(selected)) {</span>
+
+<span class="nc" id="L245">                saldoLabel.setText(String.valueOf(rek.getSaldo()));</span>
+<span class="nc" id="L246">                kredietlimietLabel.setText(String.valueOf(rek.getKredietlimiet()));</span>
+
+            }
+
+<span class="nc" id="L250">        }</span>
+
+<span class="nc" id="L252">    }</span>
+    
+    public void laatTransactiesZien()
+    {
+<span class="nc" id="L256">        String selected = rekeningenCombo.getSelectionModel().getSelectedItem().toString();</span>
+        
+<span class="nc" id="L258">        ObservableList&lt;Transactie&gt; items = null;</span>
+        
+<span class="nc bnc" id="L260" title="All 2 branches missed.">        for(Bankrekening br : rekeningenLijst)</span>
+        {
+<span class="nc bnc" id="L262" title="All 2 branches missed.">            if(br.getNummer() == Integer.parseInt(selected))</span>
+            {
+<span class="nc" id="L264">                items = FXCollections.observableArrayList(br.getTransacties());</span>
+<span class="nc" id="L265">                break;</span>
+            }
+            
+<span class="nc" id="L268">        }</span>
+        
+<span class="nc" id="L270">        listTransacties.setItems(items);</span>
+
+<span class="nc" id="L272">    }</span>
+
+    public void setRekeningen(List&lt;Bankrekening&gt; rekeningen) {
+
+<span class="nc" id="L276">        rekeningenLijst = rekeningen;</span>
+<span class="nc" id="L277">    }</span>
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

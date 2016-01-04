@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Bankclientcontroller.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;InternetBankieren&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">client</a> &gt; <span class="el_source">Bankclientcontroller.java</span></div><h1>Bankclientcontroller.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package client;
+
+import internetbankieren.Bankrekening;
+import internetbankieren.Bankrekeningen;
+import controller.MainViewController;
+import internetbankieren.DBconnector;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author 310054544
+ */
+public class Bankclientcontroller {
+    
+    MainViewController mainview;
+    Bankrekeningen rekeningen;
+    Socket s;
+    OutputStream outStream;
+    InputStream inStream;
+
+    // Let op: volgorde is van belang!
+    ObjectOutputStream out;
+    ObjectInputStream in;
+    
+
+<span class="nc" id="L38">    public Bankclientcontroller(MainViewController mainview) throws IOException {</span>
+        
+<span class="nc" id="L40">        this.s = new Socket(&quot;localhost&quot;, 8189);</span>
+<span class="nc" id="L41">        this.outStream = s.getOutputStream();</span>
+<span class="nc" id="L42">        this.inStream = s.getInputStream();</span>
+<span class="nc" id="L43">        this.out = new ObjectOutputStream(outStream);</span>
+<span class="nc" id="L44">        this.in = new ObjectInputStream(inStream);</span>
+<span class="nc" id="L45">        this.rekeningen = new Bankrekeningen();</span>
+<span class="nc" id="L46">        this.mainview = mainview;</span>
+<span class="nc" id="L47">    }</span>
+
+    public Socket getS() {
+<span class="nc" id="L50">        return s;</span>
+    }
+
+    
+    
+        public void selectRekeningen(int klantID) {
+<span class="nc" id="L56">        List&lt;Bankrekening&gt; rekNummers = rekeningen.getAllRekeningen();</span>
+<span class="nc" id="L57">        List&lt;Bankrekening&gt; rekKlant = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L58">        Bankrekening rek = null;</span>
+            
+        
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        for (Bankrekening r : rekNummers) {</span>
+            
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if(r.getKlantID() == klantID)</span>
+            {
+<span class="nc" id="L65">               rekKlant.add(r);</span>
+               
+<span class="nc" id="L67">                rek = r;</span>
+                
+            }
+            
+<span class="nc" id="L71">        }</span>
+<span class="nc" id="L72">        mainview.setRekeningen(rekKlant);</span>
+
+         try {
+           
+<span class="nc" id="L76">            String test = rekNummers.toString();</span>
+<span class="nc" id="L77">            System.out.println(&quot;sending mb: &quot; + test);</span>
+<span class="nc" id="L78">            out.writeObject(test);</span>
+<span class="nc" id="L79">            out.flush();</span>
+
+<span class="nc" id="L81">            String result = (String) in.readObject();</span>
+<span class="nc" id="L82">            System.out.println(&quot;get mb: &quot; + result.toString());</span>
+<span class="nc" id="L83">        } catch (IOException e) {</span>
+<span class="nc" id="L84">            e.printStackTrace();</span>
+<span class="nc" id="L85">            System.out.println(&quot;catched&quot;);</span>
+<span class="nc" id="L86">        } catch (ClassNotFoundException nfe) {</span>
+<span class="nc" id="L87">            nfe.printStackTrace();</span>
+<span class="nc" id="L88">        }</span>
+
+<span class="nc" id="L90">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LoginController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;InternetBankieren&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">LoginController.java</span></div><h1>LoginController.java</h1><pre class="source lang-java linenums">package controller;
+
+import internetbankieren.Klant;
+import internetbankieren.Klanten;
+import internetbankieren.Sessie;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javafx.event.*;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import view.BankView;
+
+/**
+ * Controls the login screen
+ */
+public class LoginController implements screenController{
+
+    screensController myController;
+    private String sessionID;
+    private String username;
+    private String wachtwoord;
+<span class="fc" id="L25">    private static int generateSessionID = 0;</span>
+    private Sessie sessie;
+    
+    // STEP 1: JDBC driver name and database URL
+    static final String JDBC_DRIVER = &quot;com.mysql.jdbc.Driver&quot;;
+    static final String DB_URL = &quot;jdbc:mysql://localhost/internetbank&quot;;
+
+    //  Database credentials
+    static final String USER = &quot;root&quot;;
+    static final String PASS = &quot;&quot;;
+
+    @FXML
+    private TextField user;
+    @FXML
+    private TextField password;
+
+    @FXML
+    private TextArea errorTextArea;
+    
+    @FXML
+    private Button btnRegistreer;
+    
+    Klanten gegevens;
+
+    LoginManager loginManager;
+    @FXML
+    private Button loginButton;
+
+    public void initialize() {
+        
+<span class="nc" id="L55">    }</span>
+
+<span class="fc" id="L57">    public LoginController() {</span>
+       // this.sessionID = sessionID;
+<span class="fc" id="L59">    }</span>
+
+    /**
+     * Check authorization credentials.
+     *
+     * If accepted, return a sessionID for the authorized session otherwise,
+     * return null.
+     */
+    private String authorize() {
+        
+<span class="nc" id="L69">        Connection conn = null;</span>
+<span class="nc" id="L70">        Statement stmt = null;</span>
+
+        try {
+            //STEP 2: Register JDBC driver
+<span class="nc" id="L74">            Class.forName(JDBC_DRIVER);</span>
+
+            //STEP 3: Open a connection
+<span class="nc" id="L77">            System.out.println(&quot;Connecting to database...&quot;);</span>
+<span class="nc" id="L78">            conn = DriverManager.getConnection(DB_URL, USER, PASS);</span>
+
+            //STEP 4: Execute a query
+<span class="nc" id="L81">            System.out.println(&quot;Creating statement...&quot;);</span>
+<span class="nc" id="L82">            stmt = conn.createStatement();</span>
+            String sql;
+            //sql = &quot;SELECT name, city, password FROM klantgegevens&quot;;
+           // ResultSet rs = stmt.executeQuery(sql);
+
+<span class="nc" id="L87">            username = user.getText();</span>
+<span class="nc" id="L88">            wachtwoord = password.getText();</span>
+            
+
+           // Statement statement = conn.createStatement();
+               // statement.executeUpdate(&quot;INSERT INTO klantgegevens VALUES ('&quot; + name + &quot;', '&quot; + city + &quot;', '&quot; + password + &quot;')&quot;);
+            //rs = stmt.executeQuery(sql);
+
+<span class="nc bnc" id="L95" title="All 4 branches missed.">            if (username != null &amp;&amp; wachtwoord != null) {</span>
+<span class="nc" id="L96">                sql = &quot;SELECT * FROM klant WHERE Naam='&quot; + username + &quot;' and Wachtwoord='&quot; + wachtwoord + &quot;'&quot;;</span>
+
+<span class="nc" id="L98">                ResultSet rs = stmt.executeQuery(sql);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">                if (rs.next() != false) {</span>
+<span class="nc" id="L100">                    sessionID = &quot;succeeded&quot;;</span>
+<span class="nc" id="L101">                    int klantID = rs.getInt(&quot;KlantID&quot;);</span>
+                    
+<span class="nc" id="L103">                    System.out.println(&quot;SESSIE ID: &quot;  + sessionID);</span>
+                    
+<span class="nc" id="L105">                    sessie = new Sessie(klantID, username);</span>
+                    
+                    
+<span class="nc" id="L108">                    return sessionID;</span>
+                    
+                    
+                    
+                } else {
+<span class="nc" id="L113">                    errorTextArea.setText(&quot;Onjuiste inloginformatie... Probeer opnieuw!&quot;);</span>
+                }
+            }
+
+//            for (Klant k : gegevens.getGegevens()) {
+//                if (username.equals(k.getName()) &amp;&amp; ww.equals(k.getWachtwoord())) {
+//                    return generateSessionID();
+//                }
+//            }
+
+<span class="nc" id="L123">        } catch (SQLException | ClassNotFoundException se) {</span>
+        } finally {
+            //finally block used to close resources
+<span class="nc" id="L126">            try {</span>
+<span class="nc bnc" id="L127" title="All 8 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L128">                    stmt.close();</span>
+                }
+<span class="nc" id="L130">            } catch (SQLException se2) {</span>
+<span class="nc" id="L131">            }// nothing we can do</span>
+            try {
+<span class="nc bnc" id="L133" title="All 8 branches missed.">                if (conn != null) {</span>
+<span class="nc" id="L134">                    conn.close();</span>
+                }
+<span class="nc" id="L136">            } catch (SQLException se) {</span>
+<span class="nc" id="L137">            }//end finally try</span>
+
+<span class="nc" id="L139">        }</span>
+
+<span class="nc" id="L141">        return null;</span>
+
+    }
+
+    public String generateSessionID() {
+<span class="nc" id="L146">        generateSessionID++;</span>
+        
+<span class="nc" id="L148">        return &quot;xyzzy - session &quot; + generateSessionID;</span>
+    }
+    
+    @Override
+    public void setScreenParent(screensController screenParent) {
+<span class="nc" id="L153">        myController = screenParent;</span>
+<span class="nc" id="L154">    }</span>
+    
+    @FXML
+    private void RegistreerAction(ActionEvent event) {
+
+<span class="nc" id="L159">         myController.loadScreen(BankView.screen3ID, BankView.screen3File);</span>
+<span class="nc" id="L160">         myController.setScreen(BankView.screen3ID);</span>
+         
+<span class="nc" id="L162">    }</span>
+            
+    @FXML
+    private void LoginAction(ActionEvent event) {
+
+<span class="nc" id="L167">        sessionID = authorize();</span>
+        
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if (sessionID.contains(&quot;succeeded&quot;)) {</span>
+            
+<span class="nc" id="L171">            myController.loadScreen(&quot;mainview&quot;, &quot;/view/mainview.fxml&quot;);</span>
+<span class="nc" id="L172">            myController.setScreen(BankView.screen2ID);</span>
+
+        }
+
+<span class="nc" id="L176">    }</span>
+
+//    public String getSessionID() {
+//        System.out.println(sessionID);
+//        return sessionID;
+//    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

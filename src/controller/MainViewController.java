@@ -149,7 +149,7 @@ public class MainViewController implements screenController {
     /**
      * Get Klant Information for MainViewController
      */
-    private void loadKlantInformation(String userName) {
+    public void loadKlantInformation(String userName) {
 
         DBconnector.loadKlantInformation(userName);
         DBconnector.getConnection();

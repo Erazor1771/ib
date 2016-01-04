@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>RegistreerController.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;InternetBankieren&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">RegistreerController.java</span></div><h1>RegistreerController.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package controller;
+
+import internetbankieren.Klant;
+import internetbankieren.Klanten;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import controller.LoginManager;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
+import view.BankView;
+
+/**
+ * FXML Controller class
+ *
+ * @author 310054544
+ */
+public class RegistreerController implements screenController {
+    
+    screensController myController;
+    
+    // STEP 1: JDBC driver name and database URL
+    static final String JDBC_DRIVER = &quot;com.mysql.jdbc.Driver&quot;;
+    static final String DB_URL = &quot;jdbc:mysql://localhost/internetbank&quot;;
+
+    //  Database credentials
+    static final String USER = &quot;root&quot;;
+    static final String PASS = &quot;&quot;;
+
+    @FXML
+    private Button btnRegistreren;
+    @FXML
+    private PasswordField txtFieldPassword;
+    @FXML
+    private TextField txtFieldNaam;
+    @FXML
+    private TextField txtFieldCity;
+    @FXML
+    private ComboBox bankKeuzeCombo;
+    @FXML
+    private Button btnGoBack;
+
+    private LoginManager instance;
+
+    private Klanten gegevens;
+    private List&lt;Klant&gt; lijst;
+    @FXML
+    private TextField txtKlantID;
+
+<span class="fc" id="L71">    public RegistreerController(){</span>
+<span class="fc" id="L72">        this.gegevens = new Klanten();</span>
+<span class="fc" id="L73">    }</span>
+    /**
+     * Initializes the controller class.
+     */
+    public void initialize() {
+        // TODO
+<span class="nc" id="L79">            List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L80">            list.add(&quot;ABN&quot;);</span>
+<span class="nc" id="L81">            list.add(&quot;ING&quot;);</span>
+<span class="nc" id="L82">            list.add(&quot;PAYPAL&quot;);</span>
+<span class="nc" id="L83">            ObservableList obList = FXCollections.observableList(list);</span>
+<span class="nc" id="L84">            bankKeuzeCombo.getItems().clear();</span>
+<span class="nc" id="L85">            bankKeuzeCombo.setItems(obList);</span>
+<span class="nc" id="L86">    }</span>
+
+    public void session(final LoginManager loginManager, Klanten gegevens) {
+
+<span class="nc" id="L90">        this.instance = loginManager;</span>
+<span class="nc" id="L91">        this.gegevens = gegevens;</span>
+
+<span class="nc" id="L93">    }</span>
+    
+    @FXML
+    public List RegistrerenAction(ActionEvent event) {
+
+<span class="nc" id="L98">        Connection conn = null;</span>
+<span class="nc" id="L99">        Statement stmt = null;</span>
+
+        try {
+            //STEP 2: Register JDBC driver
+<span class="nc" id="L103">            Class.forName(JDBC_DRIVER);</span>
+        
+
+            //STEP 3: Open a connection
+<span class="nc" id="L107">            System.out.println(&quot;Connecting to database...&quot;);</span>
+<span class="nc" id="L108">            conn = DriverManager.getConnection(DB_URL, USER, PASS);</span>
+
+            //STEP 4: Execute a query
+<span class="nc" id="L111">            System.out.println(&quot;Creating statement...&quot;);</span>
+<span class="nc" id="L112">            stmt = conn.createStatement();</span>
+            String sql;
+<span class="nc" id="L114">            sql = &quot;SELECT * FROM klant&quot;;</span>
+<span class="nc" id="L115">            ResultSet rs = stmt.executeQuery(sql);</span>
+
+<span class="nc" id="L117">            String BankID = bankKeuzeCombo.getSelectionModel().getSelectedItem().toString();</span>
+<span class="nc" id="L118">            String naam = txtFieldNaam.getText();</span>
+<span class="nc" id="L119">            String woonplaats = txtFieldCity.getText();</span>
+<span class="nc" id="L120">            String wachtwoord = txtFieldPassword.getText();</span>
+<span class="nc" id="L121">            int klantID = Integer.parseInt(txtKlantID.getText());</span>
+            
+            
+
+<span class="nc" id="L125">            Klant newKlant = new Klant(naam, woonplaats, wachtwoord, klantID, BankID);</span>
+            
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            if (gegevens.AddCustomer(newKlant)) {</span>
+                
+<span class="nc" id="L129">                System.out.println(&quot;Success&quot;);</span>
+
+<span class="nc" id="L131">                Statement statement = conn.createStatement();</span>
+                //String testSql = (&quot;INSERT INTO klantgegevens VALUES ('&quot; + name + &quot;', '&quot; + city + &quot;', '&quot; + password + &quot;')&quot;);
+<span class="nc" id="L133">                statement.executeUpdate(&quot;INSERT INTO klant (BankID, Naam, Woonplaats, Wachtwoord) VALUES ('&quot; + BankID + &quot;','&quot; + naam + &quot;','&quot; + woonplaats + &quot;', '&quot; + wachtwoord + &quot;')&quot;);</span>
+
+<span class="nc" id="L135">                rs = stmt.executeQuery(sql);</span>
+<span class="nc" id="L136">                System.out.println(gegevens.getGegevens().toString());</span>
+                
+<span class="nc" id="L138">                myController.loadScreen(&quot;login&quot;, &quot;/view/login.fxml&quot;);</span>
+<span class="nc" id="L139">                myController.setScreen(BankView.screen1ID);</span>
+                
+<span class="nc" id="L141">                return gegevens.getGegevens();</span>
+                
+            } else {
+<span class="nc" id="L144">                System.out.println(&quot;No Success&quot;);</span>
+            }
+
+<span class="nc" id="L147">        } catch (SQLException se) {</span>
+            //Handle errors for JDBC
+<span class="nc" id="L149">            se.printStackTrace();</span>
+<span class="nc" id="L150">        } catch (Exception e) {</span>
+            //Handle errors for Class.forName
+<span class="nc" id="L152">            e.printStackTrace();</span>
+        } finally {
+            //System.out.println(gegevens.getKlanten().toString());
+            //finally block used to close resources
+<span class="nc" id="L156">            try {</span>
+<span class="nc bnc" id="L157" title="All 10 branches missed.">                if (stmt != null) {</span>
+<span class="nc" id="L158">                    stmt.close();</span>
+                }
+<span class="nc" id="L160">            } catch (SQLException se2) {</span>
+<span class="nc" id="L161">            }// nothing we can do</span>
+            try {
+<span class="nc bnc" id="L163" title="All 10 branches missed.">                if (conn != null) {</span>
+<span class="nc" id="L164">                    conn.close();</span>
+                }
+<span class="nc" id="L166">            } catch (SQLException se) {</span>
+<span class="nc" id="L167">                se.printStackTrace();</span>
+<span class="nc" id="L168">            }//end finally try</span>
+<span class="nc" id="L169">        }</span>
+<span class="nc" id="L170">        return null;</span>
+    }
+
+    @Override
+    public void setScreenParent(screensController screenParent) {
+<span class="nc" id="L175">        myController = screenParent;</span>
+<span class="nc" id="L176">    }</span>
+
+    @FXML
+    private void goBackToLogin(ActionEvent event) {
+
+<span class="nc" id="L181">        myController.setScreen(BankView.screen1ID);</span>
+
+<span class="nc" id="L183">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

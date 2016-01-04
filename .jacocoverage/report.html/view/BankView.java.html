@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BankView.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;InternetBankieren&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">view</a> &gt; <span class="el_source">BankView.java</span></div><h1>BankView.java</h1><pre class="source lang-java linenums">package view;
+
+import java.io.IOException;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import controller.*;
+import interfaces.IKlant;
+import interfaces.IKlanten;
+import internetbankieren.Klant;
+import internetbankieren.Klanten;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.Group;
+
+/** Main application class for the login demo application */
+<span class="nc" id="L17">public class BankView extends Application {</span>
+    
+<span class="nc" id="L19">    public static String screen1ID = &quot;login&quot;;</span>
+<span class="nc" id="L20">    public static String screen1File = &quot;/view/login.fxml&quot;;</span>
+<span class="nc" id="L21">    public static String screen2ID = &quot;mainview&quot;;</span>
+<span class="nc" id="L22">    public static String screen2File = &quot;/view/mainview.fxml&quot;;</span>
+<span class="nc" id="L23">    public static String screen3ID = &quot;registreer&quot;;</span>
+<span class="nc" id="L24">    public static String screen3File = &quot;/view/registreer.fxml&quot;;</span>
+<span class="nc" id="L25">    public static String screen4ID = &quot;bankrekening&quot;;</span>
+<span class="nc" id="L26">    public static String screen4File = &quot;/view/bankrekening.fxml&quot;;</span>
+    
+  
+    @Override public void start(Stage primaryStage) throws IOException {
+    
+<span class="nc" id="L31">          screensController mainContainer = new screensController();</span>
+
+<span class="nc" id="L33">          mainContainer.loadScreen(BankView.screen1ID, BankView.screen1File);</span>
+<span class="nc" id="L34">          mainContainer.setScreen(BankView.screen1ID);</span>
+
+<span class="nc" id="L36">          Group root = new Group();</span>
+<span class="nc" id="L37">          root.getChildren().addAll(mainContainer);</span>
+<span class="nc" id="L38">          Scene scene = new Scene(root);</span>
+<span class="nc" id="L39">          primaryStage.setScene(scene);</span>
+<span class="nc" id="L40">          primaryStage.show();  </span>
+          
+<span class="nc" id="L42">    }</span>
+    
+    /**
+       * The main() method is ignored in correctly deployed JavaFX application.
+       * main() serves only as fallback in case the application can not be
+       * launched through deployment artifacts, e.g., in IDEs with limited FX
+       * support. NetBeans ignores main().
+       *
+       * @param args the command line arguments
+       */
+    public static void main(String[] args) { 
+               
+<span class="nc" id="L54">          launch(args); </span>
+
+<span class="nc" id="L56">       }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -78,12 +78,19 @@ public class Bankrekening implements IBankrekening{
     @Override
     public boolean overschrijven(int vanRekNummer, int naarRekNummer, double bedrag) {
         
-        bank.transactieUitvoeren(vanRekNummer, naarRekNummer, bedrag);
+       if( bank.transactieUitvoeren(vanRekNummer, naarRekNummer, bedrag))
+       {
         
         Transactie transactie = new Transactie(vanRekNummer, naarRekNummer, bedrag);
         transacties.add(transactie);
         
         return true;
+       }
+       else
+       {
+           System.out.println("Onvoldoende saldo");
+           return false;
+       }
         
     }
 

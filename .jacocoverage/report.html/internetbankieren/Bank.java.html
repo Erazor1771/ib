@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Bank.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;InternetBankieren&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">internetbankieren</a> &gt; <span class="el_source">Bank.java</span></div><h1>Bank.java</h1><pre class="source lang-java linenums">package internetbankieren;
+
+import interfaces.IBank;
+import interfaces.IBankrekening;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Bank implements IBank {
+
+    private String bankcode;
+    //private List&lt;IBankrekening&gt; bankRekeningen;
+    private Bankrekeningen bankrekeningen;
+    private Overboekcentrale centraleBank;
+
+    // STEP 1: JDBC driver name and database URL
+    static final String JDBC_DRIVER = &quot;com.mysql.jdbc.Driver&quot;;
+    static final String DB_URL = &quot;jdbc:mysql://localhost/internetbank&quot;;
+
+    //  Database credentials
+    static final String USER = &quot;root&quot;;
+    static final String PASS = &quot;&quot;;
+
+<span class="fc" id="L28">    public Bank(String bankcode) {</span>
+<span class="fc" id="L29">        this.bankcode = bankcode;</span>
+<span class="fc" id="L30">        centraleBank = new Overboekcentrale(bankcode);</span>
+<span class="fc" id="L31">        this.bankrekeningen = bankrekeningen;</span>
+<span class="fc" id="L32">    }</span>
+
+    public String getBankcode() {
+<span class="nc" id="L35">        return bankcode;</span>
+    }
+
+    @Override
+    public int voegRekeningNrToe() {
+<span class="nc" id="L40">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public boolean transactieUitvoeren(int vanRekNum, int naarRekNum, double bedrag) {
+        
+<span class="fc" id="L46">        Connection conn = null;</span>
+<span class="fc" id="L47">        Statement stmt = null;</span>
+<span class="fc" id="L48">        String saldoNaar = &quot;&quot;;</span>
+<span class="fc" id="L49">        String saldoVan = &quot;&quot;;</span>
+
+        try {
+            //STEP 2: Register JDBC driver
+<span class="fc" id="L53">            Class.forName(JDBC_DRIVER);</span>
+
+            //STEP 3: Open a connection
+<span class="fc" id="L56">            System.out.println(&quot;Connecting to database...&quot;);</span>
+<span class="fc" id="L57">            conn = DriverManager.getConnection(DB_URL, USER, PASS);</span>
+
+            //STEP 4: Execute a query
+<span class="fc" id="L60">            System.out.println(&quot;Creating statement...&quot;);</span>
+<span class="fc" id="L61">            stmt = conn.createStatement();</span>
+
+            String sql;
+
+<span class="fc" id="L65">            sql = &quot;SELECT Saldo FROM bankrekening WHERE Rekeningnummer = '&quot; + naarRekNum + &quot;'&quot;;</span>
+
+            ResultSet rs;
+<span class="fc" id="L68">            rs = stmt.executeQuery(sql);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            if (rs.next()) {</span>
+
+<span class="fc" id="L71">                saldoNaar = rs.getString(&quot;Saldo&quot;);</span>
+
+            } 
+            else{
+             
+<span class="fc" id="L76">                System.out.println(&quot;No Success&quot;);</span>
+              
+            }
+
+<span class="fc" id="L80">            sql = &quot;SELECT Saldo FROM bankrekening WHERE Rekeningnummer = '&quot; + vanRekNum + &quot;'&quot;;</span>
+
+<span class="fc" id="L82">            rs = stmt.executeQuery(sql);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">            if (rs.next()) {</span>
+
+<span class="fc" id="L85">                saldoVan = rs.getString(&quot;Saldo&quot;);</span>
+
+            } else {
+<span class="fc" id="L88">                System.out.println(&quot;No Success&quot;);</span>
+<span class="fc" id="L89">                return false;</span>
+            }
+            
+<span class="fc bfc" id="L92" title="All 2 branches covered.">            if( Double.parseDouble(saldoVan) &gt;= bedrag)</span>
+            {
+
+<span class="fc" id="L95">            Double eindsaldoNaar = bedrag + Double.parseDouble(saldoNaar);</span>
+<span class="fc" id="L96">            Double eindsaldoVan = Double.parseDouble(saldoVan) - bedrag;</span>
+
+<span class="fc" id="L98">            sql = &quot;UPDATE bankrekening SET Saldo = '&quot; + eindsaldoNaar + &quot;' WHERE Rekeningnummer = '&quot; + naarRekNum + &quot;'&quot;;</span>
+
+<span class="fc" id="L100">            stmt.executeUpdate(sql);</span>
+
+<span class="fc" id="L102">            sql = &quot;UPDATE bankrekening SET Saldo = '&quot; + eindsaldoVan+ &quot;' WHERE Rekeningnummer = '&quot; + vanRekNum + &quot;'&quot;;</span>
+
+<span class="fc" id="L104">            stmt.executeUpdate(sql);</span>
+<span class="fc" id="L105">            }</span>
+            else
+            {
+<span class="fc" id="L108">                System.out.println(&quot;Onvoldoende saldo&quot;);</span>
+<span class="fc" id="L109">                return false;</span>
+            }
+            
+            
+
+<span class="nc" id="L114">        } catch (SQLException se) {</span>
+            //Handle errors for JDBC
+<span class="nc" id="L116">            se.printStackTrace();</span>
+<span class="nc" id="L117">        } catch (Exception e) {</span>
+            //Handle errors for Class.forName
+<span class="nc" id="L119">            e.printStackTrace();</span>
+        } finally {
+            //System.out.println(gegevens.getKlanten().toString());
+            //finally block used to close resources
+<span class="nc" id="L123">            try {</span>
+<span class="pc bpc" id="L124" title="9 of 12 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L125">                    stmt.close();</span>
+                }
+<span class="nc" id="L127">            } catch (SQLException se2) {</span>
+<span class="pc" id="L128">            }// nothing we can do</span>
+            try {
+<span class="pc bpc" id="L130" title="9 of 12 branches missed.">                if (conn != null) {</span>
+<span class="pc" id="L131">                    conn.close();</span>
+                }
+<span class="nc" id="L133">            } catch (SQLException se) {</span>
+<span class="nc" id="L134">                se.printStackTrace();</span>
+<span class="pc" id="L135">            }//end finally try</span>
+<span class="nc" id="L136">        }</span>
+        
+<span class="fc" id="L138">            return true;</span>
+        }
+
+    @Override
+    public Bank getBank(String bankcode) {
+<span class="nc" id="L143">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public boolean maakBankrekening(int nummer, double saldo) {
+<span class="nc" id="L148">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public boolean addBankrekeningnummer(Bankrekening br) {
+<span class="nc" id="L153">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public Bankrekening getBankrekeningnummer(int position) {
+<span class="nc" id="L158">        throw new UnsupportedOperationException(&quot;Not supported yet.&quot;); //To change body of generated methods, choose Tools | Templates.</span>
+    }
+
+    @Override
+    public ArrayList getBankrekeningen() {
+<span class="nc" id="L163">        return bankrekeningen.getBankrekeningen();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

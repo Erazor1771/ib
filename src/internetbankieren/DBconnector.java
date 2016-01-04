@@ -32,7 +32,7 @@ public class DBconnector {
     //  Database credentials
     static final String USER = "root";
     static final String PASS = "";
-
+    
     private static Connection conn;
     private static Bankrekeningen rekeningen = new Bankrekeningen();
 
@@ -68,6 +68,10 @@ public class DBconnector {
             Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return conn;
+    }
+    
+    public void closeConnection() throws SQLException {
+        conn.close();
     }
 
     public static void loadKlantInformation(String userName) {

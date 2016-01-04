@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="nl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DBconnector.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;InternetBankieren&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">internetbankieren</a> &gt; <span class="el_source">DBconnector.java</span></div><h1>DBconnector.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package internetbankieren;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author 310054544
+ */
+public class DBconnector {
+
+    // STEP 1: JDBC driver name and database URL
+    static final String JDBC_DRIVER = &quot;com.mysql.jdbc.Driver&quot;;
+    static final String DB_URL = &quot;jdbc:mysql://localhost/internetbank&quot;;
+
+    //  Database credentials
+    static final String USER = &quot;root&quot;;
+    static final String PASS = &quot;&quot;;
+    
+    private static Connection conn;
+<span class="fc" id="L37">    private static Bankrekeningen rekeningen = new Bankrekeningen();</span>
+
+    public Connection getConn() {
+<span class="nc" id="L40">        return conn;</span>
+    }
+
+<span class="fc" id="L43">    public DBconnector() {</span>
+        
+<span class="fc" id="L45">        rekeningen = new Bankrekeningen();</span>
+
+        try {
+            // laad driver
+            //Class.forName(&quot;org.apache.derby.jdbc.ClientDriver&quot;);
+<span class="fc" id="L50">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+<span class="nc" id="L51">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L52">            Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L53">        }</span>
+
+<span class="fc" id="L55">    }</span>
+
+    public static Connection getConnection() {
+        try {
+<span class="fc" id="L59">            Class.forName(JDBC_DRIVER);</span>
+<span class="nc" id="L60">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L61">            Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L62">        }</span>
+
+        try {
+<span class="fc" id="L65">            conn = DriverManager.getConnection(DB_URL, USER, PASS);</span>
+
+<span class="nc" id="L67">        } catch (SQLException ex) {</span>
+<span class="nc" id="L68">            Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="fc" id="L69">        }</span>
+<span class="fc" id="L70">        return conn;</span>
+    }
+    
+    public void closeConnection() throws SQLException {
+<span class="fc" id="L74">        conn.close();</span>
+<span class="fc" id="L75">    }</span>
+
+    public static void loadKlantInformation(String userName) {
+
+<span class="fc" id="L79">        Connection conn = null;</span>
+<span class="fc" id="L80">        Statement stmt = null;</span>
+<span class="fc" id="L81">        ResultSet rs = null;</span>
+
+        try {
+
+<span class="fc" id="L85">            conn = DBconnector.getConnection();</span>
+            //STEP 2: Register JDBC driver
+//            Class.forName(JDBC_DRIVER);
+
+            //STEP 3: Open a connection
+//            System.out.println(&quot;Connecting to database...&quot;);
+//            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            //STEP 4: Execute a query
+<span class="fc" id="L93">            System.out.println(&quot;Creating statement...&quot;);</span>
+<span class="fc" id="L94">            stmt = conn.createStatement();</span>
+            String sql;
+
+<span class="fc" id="L97">            sql = &quot;SELECT * FROM klant WHERE Naam ='&quot; + userName + &quot;'&quot;;</span>
+<span class="fc" id="L98">            rs = stmt.executeQuery(sql);</span>
+<span class="fc" id="L99">            Statement statement = conn.createStatement();</span>
+<span class="fc" id="L100">            rs = stmt.executeQuery(sql);</span>
+
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">            if (rs.next()) {</span>
+                //Retrieve by column name
+<span class="nc" id="L104">                String naam = rs.getString(&quot;Naam&quot;);</span>
+<span class="nc" id="L105">                String woonplaats = rs.getString(&quot;Woonplaats&quot;);</span>
+
+                //naamLabel.setText(naam);
+                //woonplaatsLabel.setText(woonplaats);
+<span class="nc" id="L109">            } else {</span>
+<span class="fc" id="L110">                System.out.println(&quot;Invalid credentials&quot;);</span>
+            }
+
+//            for (Klant k : gegevens.getGegevens()) {
+//                if (username.equals(k.getName()) &amp;&amp; ww.equals(k.getWachtwoord())) {
+//                    return generateSessionID();
+//                }
+//            }
+<span class="nc" id="L118">        } catch (SQLException se) {</span>
+        } finally {
+            //finally block used to close resources
+<span class="nc" id="L121">            try {</span>
+<span class="pc bpc" id="L122" title="5 of 6 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L123">                    stmt.close();</span>
+                }
+<span class="nc" id="L125">            } catch (SQLException se2) {</span>
+<span class="pc" id="L126">            }// nothing we can do</span>
+            try {
+<span class="pc bpc" id="L128" title="5 of 6 branches missed.">                if (conn != null) {</span>
+<span class="pc" id="L129">                    conn.close();</span>
+                }
+<span class="nc" id="L131">            } catch (SQLException se) {</span>
+<span class="pc" id="L132">            }//end finally try</span>
+
+<span class="nc" id="L134">        }</span>
+<span class="fc" id="L135">    }</span>
+
+    public static List&lt;Klant&gt; getAllPersoon() {
+
+<span class="fc" id="L139">        Connection conn = null;</span>
+<span class="fc" id="L140">        Statement stmt = null;</span>
+<span class="fc" id="L141">        ResultSet rs = null;</span>
+
+<span class="fc" id="L143">        List&lt;Klant&gt; lijst = new ArrayList&lt;Klant&gt;();</span>
+        try {
+
+<span class="fc" id="L146">            conn = DBconnector.getConnection();</span>
+            // haal alle records op
+
+<span class="fc" id="L149">            stmt = conn.createStatement();</span>
+            String sql;
+
+<span class="fc" id="L152">            sql = &quot;SELECT * FROM klant&quot;;</span>
+<span class="fc" id="L153">            rs = stmt.executeQuery(sql);</span>
+
+<span class="fc bfc" id="L155" title="All 2 branches covered.">            while (rs.next()) {</span>
+<span class="fc" id="L156">                String naam = rs.getString(&quot;Naam&quot;);</span>
+<span class="fc" id="L157">                String stad = rs.getString(&quot;Woonplaats&quot;);</span>
+<span class="fc" id="L158">                String ww = rs.getString(&quot;Wachtwoord&quot;);</span>
+<span class="fc" id="L159">                int klantID = rs.getInt(&quot;KlantID&quot;);</span>
+<span class="fc" id="L160">                String bankID = rs.getString(&quot;KlantID&quot;);</span>
+                // maak nieuw persoonobject
+<span class="fc" id="L162">                Klant newPersoon = new Klant(naam, stad, ww, klantID, bankID);</span>
+                // voeg toe aan lijst
+<span class="fc" id="L164">                lijst.add(newPersoon);</span>
+<span class="fc" id="L165">            }</span>
+<span class="nc" id="L166">        } catch (SQLException ex) {</span>
+<span class="nc" id="L167">            Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);</span>
+        } finally {
+            //finally block used to close resources
+<span class="nc" id="L170">            try {</span>
+<span class="pc bpc" id="L171" title="5 of 6 branches missed.">                if (stmt != null) {</span>
+<span class="pc" id="L172">                    stmt.close();</span>
+                }
+<span class="nc" id="L174">            } catch (SQLException se2) {</span>
+<span class="pc" id="L175">            }// nothing we can do</span>
+            try {
+<span class="pc bpc" id="L177" title="5 of 6 branches missed.">                if (conn != null) {</span>
+<span class="pc" id="L178">                    conn.close();</span>
+                }
+<span class="nc" id="L180">            } catch (SQLException se) {</span>
+<span class="pc" id="L181">            }//end finally try</span>
+
+<span class="nc" id="L183">        }</span>
+<span class="fc" id="L184">        return lijst;</span>
+    }
+
+//    public static List&lt;Bankrekening&gt; getAllRekeningen() {
+//        //public static void getAllRekeningen() {
+//
+//        Connection conn = null;
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//
+//        List&lt;Bankrekening&gt; lijst = new ArrayList&lt;Bankrekening&gt;();
+//        try {
+//
+//            conn = DBconnector.getConnection();
+//            // haal alle records op
+//
+//            stmt = conn.createStatement();
+//            String sql;
+//
+//            sql = &quot;SELECT * FROM bankrekening&quot;;
+//            rs = stmt.executeQuery(sql);
+//
+//            while (rs.next()) {
+//                int reknummer = rs.getInt(&quot;Rekeningnummer&quot;);
+//                double saldo = rs.getDouble(&quot;Saldo&quot;);
+//                //String ww = rs.getString(&quot;Wachtwoord&quot;);
+//                int klantID = rs.getInt(&quot;KlantID&quot;);
+//                double kredietLimiet = rs.getDouble(&quot;Kredietlimiet&quot;);
+//                // maak nieuw persoonobject
+//                Bankrekening newRekening = new Bankrekening(reknummer, saldo, klantID, kredietLimiet);
+//                // voeg toe aan lijst
+//
+//                lijst.add(newRekening);
+//                rekeningen.addBankrekening(newRekening);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DBconnector.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            //finally block used to close resources
+//            try {
+//                if (stmt != null) {
+//                    stmt.close();
+//                }
+//            } catch (SQLException se2) {
+//            }// nothing we can do
+//            try {
+//                if (conn != null) {
+//                    conn.close();
+//                }
+//            } catch (SQLException se) {
+//            }//end finally try
+//
+//        }
+//       return lijst;
+//    }
+//    
+    
+    
+//    public static List loadCBItems(String userName)
+//    {
+//        List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();
+//          Connection conn = null;
+//        Statement stmt = null;
+//        ResultSet rs = null;
+//        try {
+//
+//            conn = DBconnector.getConnection();
+//
+//            //STEP 4: Execute a query
+//            System.out.println(&quot;Creating statement...&quot;);
+//
+//            stmt = conn.createStatement();
+//            String sql;
+//
+//            sql = &quot;SELECT * FROM klant WHERE Naam ='&quot; + userName + &quot;'&quot;;
+//
+//            Statement statement = conn.createStatement();
+//            rs = stmt.executeQuery(sql);
+//            if (rs.next()) {
+//                System.out.println(&quot;USERNAME: &quot; + userName);
+//                int klantID = rs.getInt(&quot;KlantID&quot;);
+//                sql = &quot;SELECT * FROM bankrekening WHERE KlantID ='&quot; + klantID + &quot;'&quot;;
+//                statement = conn.createStatement();
+//                rs = stmt.executeQuery(sql);
+//
+//                while (rs.next()) {
+//                    int reknummer = rs.getInt(&quot;Rekeningnummer&quot;);
+//                    System.out.println(&quot;REKNUMMERS: &quot; + reknummer);
+//                    list.add(reknummer);
+//                }
+//
+//            } else {
+//                System.out.println(&quot;No Success&quot;);
+//            }
+//
+//        } catch (SQLException se) {
+//            //Handle errors for JDBC
+//            se.printStackTrace();
+//        } catch (Exception e) {
+//            //Handle errors for Class.forName
+//            e.printStackTrace();
+//        } finally {
+//            //System.out.println(gegevens.getKlanten().toString());
+//            //finally block used to close resources
+//            try {
+//                if (stmt != null) {
+//                    stmt.close();
+//                }
+//            } catch (SQLException se2) {
+//            }// nothing we can do
+//            try {
+//                if (conn != null) {
+//                    conn.close();
+//                }
+//            } catch (SQLException se) {
+//                se.printStackTrace();
+//            }//end finally try
+//        }
+//        
+//        return list;
+//    }
+    
+    private static void transactie(double bedrag, int vanRekening, int naarRekening)
+    {
+        
+  
+
+            
+        
+<span class="nc" id="L313">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
