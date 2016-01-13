@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="555.0" prefWidth="888.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BankrekeningController">
+   <children>
+      <Label layoutX="222.0" layoutY="199.0" text="Bankrekening Nummer:" />
+      <Label layoutX="310.0" layoutY="264.0" text="Klant:" />
+      <Label layoutX="304.0" layoutY="331.0" text="Saldo:" />
+      <Label layoutX="268.0" layoutY="395.0" text="Kredietlimiet:" />
+      <Button layoutX="391.0" layoutY="457.0" mnemonicParsing="false" onAction="#maakBankrekening" text="Maak Bankrekening Aan" />
+      <Button layoutX="287.0" layoutY="456.0" mnemonicParsing="false" onAction="#goBackToMainView" text="Ga Terug" />
+      <TextField fx:id="bankrekeningNummerField" layoutX="390.0" layoutY="183.0" prefHeight="49.0" prefWidth="169.0" />
+      <TextField fx:id="kredietlimietField" layoutX="387.0" layoutY="380.0" prefHeight="49.0" prefWidth="173.0" />
+      <TextField fx:id="klantField" editable="false" layoutX="389.0" layoutY="248.0" prefHeight="49.0" prefWidth="170.0" />
+      <TextField fx:id="saldoField" layoutX="388.0" layoutY="315.0" prefHeight="49.0" prefWidth="173.0" />
+      <Pane layoutY="-1.0" prefHeight="122.0" prefWidth="888.0" style="-fx-background-color: #e5e5e5;">
+         <children>
+            <Label layoutX="172.0" layoutY="30.0" text="BANKREKENING AANMAKEN">
+               <font>
+                  <Font size="44.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
