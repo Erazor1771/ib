@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package integrationtest;
 
+import client.Bankclientcontroller;
 import controller.MainViewController;
 import internetbankieren.Bankrekeningen;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,6 +46,8 @@ public class BankclientcontrollerIT {
         this.out = new ObjectOutputStream(outStream);
         this.in = new ObjectInputStream(inStream);
         this.rekeningen = new Bankrekeningen();
+        MainViewController mvc = new MainViewController();
+        mvc.loadKlantInformation("session1");
     }
 
     @BeforeClass
@@ -67,6 +71,7 @@ public class BankclientcontrollerIT {
 
     /**
      * Test of selectRekeningen method, of class Bankclientcontroller.
+     * Returns details of customerID 9
      */
     @Test
     public void testSelectRekeningen() throws IOException {
@@ -74,8 +79,21 @@ public class BankclientcontrollerIT {
         int klantID = 9;
         Bankclientcontroller instance = new Bankclientcontroller(mvc);
         instance.selectRekeningen(klantID);
-        // TODO review the generated test code and remove the default call to fail.
-       // fail("The test case is a prototype.");
+       ;
+    }
+    
+     /**
+     * Test of getS method, of class Bankclientcontroller.
+     * check if client connects to the correct ports
+     */
+    @Test
+    public void testGetS() throws IOException {
+        System.out.println("getS");
+        Bankclientcontroller instance = new Bankclientcontroller(mvc);
+        SocketChannel expResult = s.getChannel();
+        SocketChannel result = instance.getS().getChannel();
+       
+
     }
 
 }

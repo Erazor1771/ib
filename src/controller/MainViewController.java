@@ -157,8 +157,8 @@ public class MainViewController implements screenController {
 
         for (Klant k : Klantenlijst) {
             if (k.getName().equals(userName)) {
-                //naamLabel.setText(k.getName());
-                //woonplaatsLabel.setText(k.getCity());
+                naamLabel.setText(k.getName());
+                woonplaatsLabel.setText(k.getCity());
                 System.out.println(k.getName() + " - " + k.getCity() );
                 break;
             }

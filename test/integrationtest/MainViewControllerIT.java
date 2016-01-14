@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package integrationtest;
 
+import controller.LoginController;
+import controller.MainViewController;
+import controller.RegistreerController;
+import controller.screensController;
 import internetbankieren.Bankrekening;
 import internetbankieren.DBconnector;
 import internetbankieren.Klanten;
